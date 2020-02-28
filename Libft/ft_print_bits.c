@@ -6,7 +6,7 @@
 /*   By: skrasin <skrasin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/09 15:43:40 by skrasin           #+#    #+#             */
-/*   Updated: 2019/10/09 15:57:24 by skrasin          ###   ########.fr       */
+/*   Updated: 2020/02/17 13:24:16 by skrasin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,12 @@
 void	ft_print_bits(unsigned char octet)
 {
 	int				i;
-	unsigned char	bit;
 
-	i = 8;
-	while (i--)
+	i = 128;
+	while (octet >= 0 && i)
 	{
-		bit = (octet >> i & 1) + '0';
-		write(1, &bit, 1);
+		(octet / i) ? write(1, "1", 1) : write(1, "0", 1);
+		(octet / i) ? octet -= i : 0;
+		i /= 2;
 	}
 }

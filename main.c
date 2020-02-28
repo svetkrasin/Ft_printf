@@ -6,17 +6,16 @@
 /*   By: skrasin <skrasin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/01 16:16:50 by svet              #+#    #+#             */
-/*   Updated: 2020/02/14 21:15:30 by skrasin          ###   ########.fr       */
+/*   Updated: 2020/02/17 13:54:20 by skrasin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
+#include "./Libft/libft.h"
 #include <stdio.h>
 #include <ctype.h>
 
 int	main(void)
 {
-	//ft_printf("%i", 5);
-	printf("%2$d %d; ", 16, 17);
 	return (0);
 }
