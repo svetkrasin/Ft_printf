@@ -6,7 +6,7 @@
 /*   By: skrasin <skrasin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/26 20:02:17 by skrasin           #+#    #+#             */
-/*   Updated: 2020/02/27 22:44:45 by skrasin          ###   ########.fr       */
+/*   Updated: 2020/02/27 23:11:04 by skrasin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,13 +50,9 @@ static int			ft_prep_struct(t_printf *node, const char *fmt, va_list arg)
 	va_copy(node->ap_save, arg);
 	node->thousands_sep = 0;
 	node->save_errno = errno;
-	if (fmt == NULL)
-	{
-		errno = EINVAL;
+	if (fmt == NULL && (errno = EINVAL))
 		return (-1);
-	}
 	node->format = fmt;
-	node->done = 0;
 	node->fstring = NULL;
 	node->grouping = (const char *)-1;
 	node->lead_str_end = (const unsigned char *)ft_strchr(fmt, '%');
@@ -64,9 +60,13 @@ static int			ft_prep_struct(t_printf *node, const char *fmt, va_list arg)
 	ft_outstring(&(node->fstring), (const unsigned char *)fmt, node->f - (const unsigned char *)fmt);
 	if (*(node->f) == '\0')
 	{
-		if (INT_MAX)
-		return ();
+		if ((size_t)node->done > (size_t)INT_MAX && (errno = EOVERFLOW))
+			return (-1);
+		else
+			return (node->f - (const unsigned char *)fmt);
 	}
+	node->done = node->f - (const unsigned char *)fmt;
+	return(node->done);
 }
 
 int				ft_vasprintf(char **result_ptr, const char *format,
@@ -74,6 +74,20 @@ int				ft_vasprintf(char **result_ptr, const char *format,
 {
 	t_printf *node;
 
-	ft_prepstruct(node, format, args);
+	if (!(node = (t_printf *)ft_memalloc(sizeof(t_printf))))
+		return (-1);
+	if (ft_prepstruct(node, format, args) == -1)
+	{
+		free(node->fstring);
+		free(node);
+		return(-1);
+	}
+	if (*(node->f) == '\0')
+	{
+		if (!(*result_ptr = (char *)ft_memalloc(node->done * sizeof(char))))
+			return (-1);
+		ft_memcpy(*result_ptr, node->fstring, node->done);
+		return (node->done);
+	}
 	return (node->done);
 }
