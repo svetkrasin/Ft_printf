@@ -6,15 +6,13 @@
 /*   By: skrasin <skrasin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/26 20:02:17 by skrasin           #+#    #+#             */
-/*   Updated: 2020/02/27 23:11:04 by skrasin          ###   ########.fr       */
+/*   Updated: 2020/03/02 06:12:17 by skrasin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
-#include <errno.h>
-#include <limits.h>
 
-char			*ft_realloc(void *ptr, size_t size)
+char		*ft_realloc(void *ptr, size_t size)
 {
 	free(ptr);
 	ptr = (char *)malloc(size);
@@ -45,32 +43,40 @@ char		*ft_outstring(char **dst, char const *src, size_t len)
 	return (*dst);
 }
 
-static int			ft_prep_struct(t_printf *node, const char *fmt, va_list arg)
+char		*ft_strchrnul(const char *s, char c)
 {
-	va_copy(node->ap_save, arg);
-	node->thousands_sep = 0;
-	node->save_errno = errno;
-	if (fmt == NULL && (errno = EINVAL))
-		return (-1);
-	node->format = fmt;
-	node->fstring = NULL;
-	node->grouping = (const char *)-1;
-	node->lead_str_end = (const unsigned char *)ft_strchr(fmt, '%');
-	node->f = node->lead_str_end;
-	ft_outstring(&(node->fstring), (const unsigned char *)fmt, node->f - (const unsigned char *)fmt);
-	if (*(node->f) == '\0')
-	{
-		if ((size_t)node->done > (size_t)INT_MAX && (errno = EOVERFLOW))
-			return (-1);
-		else
-			return (node->f - (const unsigned char *)fmt);
-	}
-	node->done = node->f - (const unsigned char *)fmt;
-	return(node->done);
+	while (*s != (unsigned char)c && *s)
+		s++;
+	return (s);
 }
 
-int				ft_vasprintf(char **result_ptr, const char *format,
-																va_list args)
+static int	ft_prep_struct(t_printf *node, const char *fmt, va_list arg)
+{
+	node->convbuf = NULL;
+	node->fmt = fmt;
+	node->argtable = NULL;
+	node->nextarg = 1;
+	va_copy(node->orgap, arg);
+	node->ret = 0;
+	node->dtoaresult = NULL;
+	node->decimal_point = NULL; //read !470!
+	node->decpt_len = 1;
+	// node->lead_str_end = (const unsigned char *)ft_strchrnul(fmt, '%');
+	// node->f = node->lead_str_end;
+	// ft_outstring(&(node->fstring), (const unsigned char *)fmt, node->f -
+	// 											(const unsigned char *)fmt);
+	// if (*(node->f) == '\0')
+	// {
+	// 	if ((size_t)node->done > (size_t)INT_MAX && (errno = EOVERFLOW))
+	// 		return (-1);
+	// 	else
+	// 		return (node->f - (const unsigned char *)fmt);
+	// }
+	// node->done = node->f - (const unsigned char *)fmt;
+	return (node->ret);
+}
+
+int			ft_vasprintf(char **result_ptr, const char *format, va_list args)
 {
 	t_printf *node;
 
@@ -80,14 +86,14 @@ int				ft_vasprintf(char **result_ptr, const char *format,
 	{
 		free(node->fstring);
 		free(node);
-		return(-1);
+		return (-1);
 	}
-	if (*(node->f) == '\0')
-	{
-		if (!(*result_ptr = (char *)ft_memalloc(node->done * sizeof(char))))
-			return (-1);
-		ft_memcpy(*result_ptr, node->fstring, node->done);
-		return (node->done);
-	}
-	return (node->done);
+	// if (*(node->f) == '\0')
+	// {
+	// 	if (!(*result_ptr = (char *)ft_memalloc(node->done * sizeof(char))))
+	// 		return (-1);
+	// 	ft_memcpy(*result_ptr, node->fstring, node->done);
+	// 	return (node->done);
+	// }
+	return (node->ret);
 }
