@@ -6,7 +6,7 @@
 /*   By: skrasin <skrasin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/25 10:32:11 by svet              #+#    #+#             */
-/*   Updated: 2020/03/02 06:12:19 by skrasin          ###   ########.fr       */
+/*   Updated: 2020/03/02 22:57:16 by skrasin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include <stddef.h>
 # include <errno.h>
 # include <limits.h>
+# include <stdbool.h>
 # include "Libft/libft.h"
 # include <sys/_types/_wint_t.h>
 # define MAXEXPDIG 6
@@ -136,6 +137,8 @@ typedef struct	s_printf
 	int					nextarg;
 	va_list				orgap;
 	char				*convbuf;
+	char				*fstring;
+	char				*origfmt;
 }				t_printf;
 
 int				ft_printf(const char *restrict format, ...);

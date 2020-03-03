@@ -6,7 +6,7 @@
 /*   By: skrasin <skrasin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/26 20:02:17 by skrasin           #+#    #+#             */
-/*   Updated: 2020/03/02 06:12:17 by skrasin          ###   ########.fr       */
+/*   Updated: 2020/03/02 22:57:15 by skrasin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,36 @@ char		*ft_strchrnul(const char *s, char c)
 	return (s);
 }
 
-static int	ft_prep_struct(t_printf *node, const char *fmt, va_list arg)
+int		ft_beginnwork(t_printf *node)
+{
+	node->cp = node->fmt;
+	while ((node->ch = *(node->fmt)) != '\0' && node->ch != '%')
+		node->fmt++;
+	if ((node->n = node->fmt - node->cp) != 0)
+	{
+		if ((unsigned)node->ret + node->n > INT_MAX)
+		{
+			node->ret = 0;
+			errno = EOVERFLOW;
+			return (ft_error(node));
+		}
+		ft_outstring(&node->fstring, node->cp, node->n);
+		node->ret += node->n;
+	}
+	if (node->ch == '\0')
+		return (0);
+	node->fmt++;
+	node->flags = 0;
+	node->dprec = 0;
+	node->width = 0;
+	node->prec = -1;
+	node->gs.grouping = NULL;
+	node->sign = '\0';
+	node->ox[1] = '\0';
+	return (1);
+}
+
+static void	ft_prep_struct(t_printf *node, const char *fmt, va_list arg)
 {
 	node->convbuf = NULL;
 	node->fmt = fmt;
@@ -61,19 +90,123 @@ static int	ft_prep_struct(t_printf *node, const char *fmt, va_list arg)
 	node->dtoaresult = NULL;
 	node->decimal_point = NULL; //read !470!
 	node->decpt_len = 1;
-	// node->lead_str_end = (const unsigned char *)ft_strchrnul(fmt, '%');
-	// node->f = node->lead_str_end;
-	// ft_outstring(&(node->fstring), (const unsigned char *)fmt, node->f -
-	// 											(const unsigned char *)fmt);
-	// if (*(node->f) == '\0')
-	// {
-	// 	if ((size_t)node->done > (size_t)INT_MAX && (errno = EOVERFLOW))
-	// 		return (-1);
-	// 	else
-	// 		return (node->f - (const unsigned char *)fmt);
-	// }
-	// node->done = node->f - (const unsigned char *)fmt;
-	return (node->ret);
+	node->fstring = NULL;
+	node->origfmt = fmt;
+}
+
+int			ft_parsedigits(t_printf *node) //has 26 lines!!!
+{
+	if (ft_is_digit(node->ch))
+	{
+		node->n = 0;
+		while (ft_is_digit(node->ch))
+		{
+			node->n = 10 * node->n + ft_to_digit(node->ch);
+			node->ch = *node->fmt++;
+		}
+		if (node->ch == '$')
+		{
+			node->nextarg = node->n;
+			if (node->argtable == NULL)
+			{
+				node->argtable = node->statargtable;
+				if (ft_find_arguments(node))
+				{
+					node->ret = 0;
+					return (ft_error(node));
+				}
+			}
+			ft_parseflags(node);
+		}
+		node->width = node->n;
+		node->ch = *node->fmt--;
+		ft_parseflags(node);
+	}
+}
+
+int			ft_parseprec(t_printf *node)
+{
+	if (node->ch == '.')
+	{
+		if ((node->ch = *node->fmt++) == '*')
+		{
+			ft_getaster(node->prec);
+			ft_parseflags(node);
+		}
+		node->prec = 0;
+		while (ft_is_digit(node->ch))
+		{
+			node->prec = 10 * node->prec + ft_to_digit(node->ch);
+			node->ch = *node->fmt++;
+		}
+		node->ch = *node->fmt--;
+		ft_parseflags(node);
+	}
+	if (node->ch == '0')
+	{
+		node->flags |= ZEROPAD;
+		ft_parseflags(node);
+	}
+	return (ft_parsedigits(node));
+}
+
+int			ft_proceedparseflags(t_printf *node)
+{
+	if (node->ch == '+')
+	{
+		node->sign = '+';
+		ft_parseflags(node);
+	}
+	if (node->ch == '\'')
+	{
+		node->flags |= GROUPING;
+		ft_parseflags(node);
+	}
+	return (ft_parseprec(node));
+}
+
+int			ft_parseflags(t_printf *node)
+{
+	node->ch = *node->fmt++;
+	if (node->ch == ' ')
+	{
+		if (!node->sign)
+			node->sign = ' ';
+		ft_parseflags(node);
+	}
+	if (node->ch == '#')
+	{
+		node->flags |= ALT;
+		ft_parseflags(node);
+	}
+	if (node->ch == '*')
+	{
+		ft_getaster(node);
+		if (!node->width >= 0)
+			ft_parseflags(node);
+		node->width *= -1;
+	}
+	if (node->ch == '-')
+	{
+		node->flags |= LADJUST;
+		ft_parseflags(node);
+	}
+	return(ft_proceedparseflags(node));
+}
+
+int			ft_basicwork(t_printf *node)
+{
+	int check;
+
+	while (true)
+	{
+		if ((check = ft_beginwork(node)) < 1)
+			return (check);
+		if ((check = ft_parseflags(node)) < 1)
+			return (check);
+		
+	}
+	return (check);
 }
 
 int			ft_vasprintf(char **result_ptr, const char *format, va_list args)
@@ -82,18 +215,7 @@ int			ft_vasprintf(char **result_ptr, const char *format, va_list args)
 
 	if (!(node = (t_printf *)ft_memalloc(sizeof(t_printf))))
 		return (-1);
-	if (ft_prepstruct(node, format, args) == -1)
-	{
-		free(node->fstring);
-		free(node);
-		return (-1);
-	}
-	// if (*(node->f) == '\0')
-	// {
-	// 	if (!(*result_ptr = (char *)ft_memalloc(node->done * sizeof(char))))
-	// 		return (-1);
-	// 	ft_memcpy(*result_ptr, node->fstring, node->done);
-	// 	return (node->done);
-	// }
+	ft_prepstruct(node, format, args);
+	ft_basicwork(node);
 	return (node->ret);
 }
