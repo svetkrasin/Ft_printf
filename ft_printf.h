@@ -6,7 +6,7 @@
 /*   By: skrasin <skrasin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/25 10:32:11 by svet              #+#    #+#             */
-/*   Updated: 2020/03/02 22:57:16 by skrasin          ###   ########.fr       */
+/*   Updated: 2020/03/08 06:07:27 by skrasin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,104 +41,21 @@
 static const char	g_xdigs_lower[16] = "0123456789abcdef";
 static const char	g_xdigs_upper[16] = "0123456789ABCDEF";
 
-typedef struct	s_grouping_state
-{
-	char		*thousands_sep;
-	int			thousep_len;
-	const char	*grouping;
-	int			lead;
-	int			nseps;
-	int			nrepeats;
-}				t_grouping_state;
-
-union	u_fparg
-{
-	double		dbl;
-	long double	dbl;
-};
-
-// union	u_arg
-// {
-// 	int					intarg;
-// 	u_int				uintarg;
-// 	long				longarg;
-// 	u_long				ulongarg;
-// 	long long			longlongarg;
-// 	unsigned long long	ulonglongarg;
-// 	ptrdiff_t			ptrdiffarg;
-// 	size_t				sizearg;
-// 	intmax_t			intmaxarg;
-// 	uintmax_t			uintmaxarg;
-// 	void				*pvoidarg;
-// 	char				*pchararg;
-// 	signed char			*pschararg;
-// 	short				*pshortarg;
-// 	int					*pintarg;
-// 	long				*plongarg;
-// 	long long			*plonglongarg;
-// 	ptrdiff_t			*pptrdiffarg;
-// 	ssize_t				*pssizearg;
-// 	intmax_t			*pintmaxarg;
-// 	double				doublearg;
-// 	long double			longdoublearg;
-// 	wint_t				wintarg;
-// 	wchar_t				*pwchararg;
-// };
-
-union	u_arg
-{
-	int				intarg;
-	long			longarg;
-	intmax_t		intmaxarg;
-	double			doublearg;
-	long double		longdoublearg;
-	wint_t			wintarg;
-	char			*pchararg;
-	wchar_t			*pwchararg;
-	void			*pvoidarg;
-};
-
 typedef struct	s_printf
 {
-	char				*fmt;
-	int					ch;
+	const char			*fmt;
+	const char			*f;
+	const char			*ch;
 	int					n;
-	int					n2;
-	char				*cp;
+	int					param;
 	int					flags;
-	int					ret;
 	int					width;
-	int					prec;
-	char				sign;
-	t_grouping_state	gs;
-	char				*decimal_point;
-	int					decpt_len;
-	int					signflag;
-	union u_fparg		fparg;
-	int					expt;
-	char				expchar;
-	char				*dtoaend;
-	int					expsize;
-	int					ndig;
-	char				expstr[MAXEXPDIG + 2];
-	char				*dtoaresult;
-	u_long				ulval;
-	uintmax_t			ujval;
-	int					base;
-	int					dprec;
-	int					realsz;
-	int					size;
-	int					psize;
-	const char			*xdigs;
-	char				buf[BUF];
-	char				ox[2];
-	union u_arg			*argtable;
-	union u_arg			statargtable[STATIC_ARG_TBL_SIZE];
-	int					nextarg;
-	va_list				orgap;
-	char				*convbuf;
-	char				*fstring;
-	char				*origfmt;
+	int					precision;
+	int					lenght;
+	int					done;
+	int					save_errno;
+	char				*fstr;
+	va_list				ap_save;
 }				t_printf;
 
 int				ft_printf(const char *restrict format, ...);
@@ -146,5 +63,8 @@ int				ft_vfprintf(int fd, const char *restrict format, va_list ap,
 													unsigned int mode_flags);
 int				ft_vasprintf(char **result_ptr, const char *format,
 																va_list args);
+char			*ft_outstring(char **dst, char const *src, size_t len);
+const char		*ft_strchrnul(const char *s, char c);
+int				ft_check_ret(int curret, int newret);
 
 #endif
