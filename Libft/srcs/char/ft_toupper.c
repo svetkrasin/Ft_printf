@@ -1,22 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_toupper.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: svet <svet@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/01/01 16:16:50 by svet              #+#    #+#             */
-/*   Updated: 2020/06/24 17:25:19 by svet             ###   ########.fr       */
+/*   Created: 2019/09/18 14:36:55 by skrasin           #+#    #+#             */
+/*   Updated: 2020/05/06 13:43:35 by svet             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
-#include <unistd.h>
-#include <stdio.h>
-#include <ctype.h>
+#include "ft_char.h"
 
-int	main(void)
+int		ft_toupper(int c)
 {
-	ft_printf("%d %s",25, "Hello");
-	return (0);
+	return (ft_islower(c) ? c - 'a' + 'A' : c);
 }

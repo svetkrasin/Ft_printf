@@ -1,22 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_strchr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: svet <svet@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/01/01 16:16:50 by svet              #+#    #+#             */
-/*   Updated: 2020/06/24 17:25:19 by svet             ###   ########.fr       */
+/*   Created: 2019/09/18 11:55:19 by skrasin           #+#    #+#             */
+/*   Updated: 2020/05/19 11:11:28 by svet             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
-#include <unistd.h>
-#include <stdio.h>
-#include <ctype.h>
+#include "ft_memory.h"
+#include "ft_string.h"
+#include <sys/_types/_null.h>
 
-int	main(void)
+char	*ft_strchr(const char *s, int c)
 {
-	ft_printf("%d %s",25, "Hello");
-	return (0);
+	return (ft_memchr(s, c, ft_strlen(s) + 1));
 }

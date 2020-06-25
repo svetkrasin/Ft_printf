@@ -1,22 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_putchar.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: svet <svet@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/01/01 16:16:50 by svet              #+#    #+#             */
-/*   Updated: 2020/06/24 17:25:19 by svet             ###   ########.fr       */
+/*   Created: 2019/09/20 20:57:54 by skrasin           #+#    #+#             */
+/*   Updated: 2020/05/18 17:40:02 by svet             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
+#include "ft_io.h"
 #include <unistd.h>
-#include <stdio.h>
-#include <ctype.h>
 
-int	main(void)
+void	ft_putchar(int c)
 {
-	ft_printf("%d %s",25, "Hello");
-	return (0);
+	ft_putchar_fd(c, STDOUT_FILENO);
 }

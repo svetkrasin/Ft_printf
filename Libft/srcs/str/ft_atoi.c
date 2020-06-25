@@ -1,22 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_atoi.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: svet <svet@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/01/01 16:16:50 by svet              #+#    #+#             */
-/*   Updated: 2020/06/24 17:25:19 by svet             ###   ########.fr       */
+/*   Created: 2019/09/18 13:14:50 by skrasin           #+#    #+#             */
+/*   Updated: 2020/05/19 12:08:04 by svet             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
-#include <unistd.h>
-#include <stdio.h>
-#include <ctype.h>
+#include "ft_string.h"
+#include <sys/_types/_null.h>
 
-int	main(void)
+int		ft_atoi(const char *str)
 {
-	ft_printf("%d %s",25, "Hello");
-	return (0);
+	return (ft_strtol(str, NULL, 10));
 }

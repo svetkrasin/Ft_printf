@@ -1,22 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_lstmap.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: svet <svet@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/01/01 16:16:50 by svet              #+#    #+#             */
-/*   Updated: 2020/06/24 17:25:19 by svet             ###   ########.fr       */
+/*   Created: 2019/09/20 17:53:20 by skrasin           #+#    #+#             */
+/*   Updated: 2020/05/20 14:35:15 by svet             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
-#include <unistd.h>
-#include <stdio.h>
-#include <ctype.h>
+#include "ft_list_bonus.h"
+#include <sys/_types/_null.h>
 
-int	main(void)
+t_list	*ft_lstmap(t_list *lst, t_list *(*f)(void *), void (*del)(void *))
 {
-	ft_printf("%d %s",25, "Hello");
-	return (0);
+	t_list	*fresh;
+	void	*p;
+
+	fresh = NULL;
+	if (f == NULL)
+		return (fresh);
+	while (lst != NULL)
+	{
+		if ((p = f(lst->content)) != NULL)
+			ft_lstadd_back(&fresh, ft_lstnew(p));
+		else
+			del(p);
+		lst = (*lst).next;
+	}
+	return (fresh);
 }

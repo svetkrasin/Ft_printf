@@ -1,22 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_lstmap.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: svet <svet@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/01/01 16:16:50 by svet              #+#    #+#             */
-/*   Updated: 2020/06/24 17:25:19 by svet             ###   ########.fr       */
+/*   Created: 2019/09/20 17:53:20 by skrasin           #+#    #+#             */
+/*   Updated: 2020/05/25 11:20:28 by svet             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
-#include <unistd.h>
-#include <stdio.h>
-#include <ctype.h>
+#include "ft_list.h"
+#include <sys/_types/_null.h>
 
-int	main(void)
+t_list	*ft_lstmap(t_list *lst, t_list *(*f)(t_list *elem))
 {
-	ft_printf("%d %s",25, "Hello");
-	return (0);
+	t_list *fresh;
+
+	fresh = NULL;
+	if (f == NULL)
+		return (fresh);
+	while (lst != NULL)
+	{
+		ft_lstadd(&fresh, f(lst));
+		lst = lst->next;
+	}
+	ft_lstrev(&fresh);
+	return (fresh);
 }

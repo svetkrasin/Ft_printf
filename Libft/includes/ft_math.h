@@ -1,22 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_math.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: svet <svet@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/01/01 16:16:50 by svet              #+#    #+#             */
-/*   Updated: 2020/06/24 17:25:19 by svet             ###   ########.fr       */
+/*   Created: 2020/05/18 15:47:15 by svet              #+#    #+#             */
+/*   Updated: 2020/05/19 10:58:39 by svet             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
-#include <unistd.h>
-#include <stdio.h>
-#include <ctype.h>
+#ifndef FT_MATH_H
+# define FT_MATH_H
+# include <sys/_types/_size_t.h>
 
-int	main(void)
-{
-	ft_printf("%d %s",25, "Hello");
-	return (0);
-}
+size_t	ft_num_of_digs(long n, int base);
+
+#endif

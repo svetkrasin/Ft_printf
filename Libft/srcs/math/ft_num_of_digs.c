@@ -1,22 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_num_of_digs.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: svet <svet@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/01/01 16:16:50 by svet              #+#    #+#             */
-/*   Updated: 2020/06/24 17:25:19 by svet             ###   ########.fr       */
+/*   Created: 2020/05/18 15:48:53 by svet              #+#    #+#             */
+/*   Updated: 2020/06/08 20:47:14 by svet             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
-#include <unistd.h>
-#include <stdio.h>
-#include <ctype.h>
+#include <sys/_types/_size_t.h>
 
-int	main(void)
+size_t	ft_num_of_digs(long n, int base)
 {
-	ft_printf("%d %s",25, "Hello");
-	return (0);
+	size_t l;
+
+	l = n == 0 ? 1 : 0;
+	while (n != 0)
+	{
+		n /= base;
+		++l;
+	}
+	return (l);
 }

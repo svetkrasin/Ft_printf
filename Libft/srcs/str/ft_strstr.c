@@ -1,22 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_strstr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: svet <svet@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/01/01 16:16:50 by svet              #+#    #+#             */
-/*   Updated: 2020/06/24 17:25:19 by svet             ###   ########.fr       */
+/*   Created: 2019/09/16 15:20:10 by skrasin           #+#    #+#             */
+/*   Updated: 2020/05/25 13:50:12 by svet             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
-#include <unistd.h>
-#include <stdio.h>
-#include <ctype.h>
+#include "ft_memory.h"
+#include "ft_string.h"
+#include <sys/_types/_null.h>
 
-int	main(void)
+char	*ft_strstr(const char *haystack, const char *needle)
 {
-	ft_printf("%d %s",25, "Hello");
-	return (0);
+	if (*needle == '\0')
+		return ((char *)haystack);
+	while (*haystack != '\0')
+	{
+		if (ft_memcmp(haystack, needle, ft_strlen(needle)) == 0)
+			return ((char*)haystack);
+		haystack++;
+	}
+	return (NULL);
 }

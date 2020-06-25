@@ -1,22 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_putlnbr_base.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: svet <svet@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/01/01 16:16:50 by svet              #+#    #+#             */
-/*   Updated: 2020/06/24 17:25:19 by svet             ###   ########.fr       */
+/*   Created: 2020/05/18 16:08:44 by svet              #+#    #+#             */
+/*   Updated: 2020/05/19 11:03:20 by svet             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
+#include "ft_io.h"
 #include <unistd.h>
-#include <stdio.h>
-#include <ctype.h>
 
-int	main(void)
+void	ft_putlnbr_base(long n, int base, int isupper)
 {
-	ft_printf("%d %s",25, "Hello");
-	return (0);
+	ft_putlnbr_base_fd(n, base, isupper, STDOUT_FILENO);
 }

@@ -1,66 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_tools.c                                         :+:      :+:    :+:   */
+/*   ft_ltoa_base.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: svet <svet@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/03/04 17:56:31 by skrasin           #+#    #+#             */
-/*   Updated: 2020/06/20 14:30:40 by svet             ###   ########.fr       */
+/*   Created: 2020/05/18 11:05:57 by svet              #+#    #+#             */
+/*   Updated: 2020/06/15 20:31:01 by svet             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
+#include "ft_memory.h"
+#include "ft_math.h"
+#include <sys/_types/_null.h>
 
-size_t	ft_unum_of_digs(unsigned long n, int base)
-{
-	size_t l;
-
-	l = n == 0 ? 1 : 0;
-	while (n != 0)
-	{
-		n /= base;
-		++l;
-	}
-	return (l);
-}
-
-char	*ft_ultoa_base(unsigned long n, int base, int isupper)
+char	*ft_ltoa_base(long n, int base, int isupper)
 {
 	char		*s;
 	size_t		len;
 	long		rem;
+	const long	sign = n < 0 ? 1L : 0L;
 	const char	a = isupper == 1 ? 'A' : 'a';
 
-	len = ft_unum_of_digs(n, base);
-	len += base == 8 ? 1 : 0;
-	len += base == 16 ? 2 : 0;
+	len = ft_num_of_digs(n, base) + sign;
+	if (base == 0)
+		base = 10;
 	if (base < 2 || base > 36 || ((s = (char *)ft_memalloc(len + 1)) == NULL))
 		return (NULL);
-	if (base == 16 && n == 0)
-		return (ft_memcpy(s, "0x0", 4));
-	s[0] = '0';
+	s[0] = (sign == 1L) ? '-' : '0';
 	while (n != 0)
 	{
-		rem = n % base;
+		rem = (n % base ^ -sign) + sign;
 		s[--len] = rem > 9 ? rem - 10 + a : rem + '0';
 		n /= base;
 	}
-	if (base == 16)
-		s[--len] = 'x';
-	if (base == 16 || base == 8)
-		s[len - 1] = '0';
 	return (s);
-}
-
-int		ft_upd_ret(t_printf *node, int new_ret)
-{
-	if (INT_MAX - node->done < new_ret)
-	{
-		errno = EOVERFLOW;
-		node->done = -1;
-	}
-	else
-		node->done += new_ret;
-	return (node->done);
 }

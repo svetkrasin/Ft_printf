@@ -1,22 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: svet <svet@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/01/01 16:16:50 by svet              #+#    #+#             */
-/*   Updated: 2020/06/24 17:25:19 by svet             ###   ########.fr       */
+/*   Created: 2019/09/16 11:33:08 by skrasin           #+#    #+#             */
+/*   Updated: 2020/05/26 11:17:02 by svet             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
-#include <unistd.h>
-#include <stdio.h>
-#include <ctype.h>
+#ifndef LIBFT_H
+# define LIBFT_H
 
-int	main(void)
-{
-	ft_printf("%d %s",25, "Hello");
-	return (0);
-}
+# include "ft_char.h"
+# include "ft_memory.h"
+# include "ft_string.h"
+# include "ft_io.h"
+# include "ft_math.h"
+# include "ft_list.h"
+
+#endif

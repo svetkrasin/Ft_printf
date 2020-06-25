@@ -1,22 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_repcset.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: svet <svet@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/01/01 16:16:50 by svet              #+#    #+#             */
-/*   Updated: 2020/06/24 17:25:19 by svet             ###   ########.fr       */
+/*   Created: 2020/03/18 13:43:37 by svet              #+#    #+#             */
+/*   Updated: 2020/05/14 14:19:32 by svet             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
-#include <unistd.h>
-#include <stdio.h>
-#include <ctype.h>
+#include "ft_memory.h"
 
-int	main(void)
+unsigned OP_T	ft_repcset(int c)
 {
-	ft_printf("%d %s",25, "Hello");
-	return (0);
+	register unsigned OP_T cc;
+
+	if ((cc = (unsigned char)c) != 0)
+	{
+		cc |= cc << 8;
+		cc |= cc << 16;
+		cc |= cc << 32;
+	}
+	else
+		cc = 0x00;
+	return (cc);
 }

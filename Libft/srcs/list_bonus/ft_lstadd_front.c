@@ -1,22 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_lstadd_front.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: svet <svet@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/01/01 16:16:50 by svet              #+#    #+#             */
-/*   Updated: 2020/06/24 17:25:19 by svet             ###   ########.fr       */
+/*   Created: 2020/05/20 10:15:48 by svet              #+#    #+#             */
+/*   Updated: 2020/05/25 13:32:13 by svet             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
-#include <unistd.h>
-#include <stdio.h>
-#include <ctype.h>
+#include "ft_list_bonus.h"
+#include <sys/_types/_null.h>
 
-int	main(void)
+void	ft_lstadd_front(t_list **lst, t_list *new)
 {
-	ft_printf("%d %s",25, "Hello");
-	return (0);
+	if (lst == NULL)
+		lst = &new;
+	else if (new != NULL)
+	{
+		new->next = *lst;
+		*lst = new;
+	}
 }

@@ -1,22 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_strcmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: svet <svet@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/01/01 16:16:50 by svet              #+#    #+#             */
-/*   Updated: 2020/06/24 17:25:19 by svet             ###   ########.fr       */
+/*   Created: 2019/09/17 16:46:35 by skrasin           #+#    #+#             */
+/*   Updated: 2020/05/25 13:44:58 by svet             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
-#include <unistd.h>
-#include <stdio.h>
-#include <ctype.h>
-
-int	main(void)
+int		ft_strcmp(const char *s1, const char *s2)
 {
-	ft_printf("%d %s",25, "Hello");
-	return (0);
+	register const unsigned char	*p1 = (const unsigned char *)s1;
+	register const unsigned char	*p2 = (const unsigned char *)s2;
+	register unsigned char			c1;
+	register unsigned char			c2;
+
+	c1 = *p1++;
+	c2 = *p2++;
+	while (c1  == c2)
+	{
+		if (c1 == '\0')
+			return (c1 - c2);
+		c1 = *p1++;
+		c2 = *p2++;
+	}
+	return (c1 - c2);
 }

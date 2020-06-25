@@ -1,22 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_optmemalign.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: svet <svet@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/01/01 16:16:50 by svet              #+#    #+#             */
-/*   Updated: 2020/06/24 17:25:19 by svet             ###   ########.fr       */
+/*   Created: 2020/05/07 13:24:36 by svet              #+#    #+#             */
+/*   Updated: 2020/05/16 09:00:38 by svet             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
-#include <unistd.h>
-#include <stdio.h>
-#include <ctype.h>
+#include "ft_memory.h"
 
-int	main(void)
+size_t	ft_optmemalign(const void *const s)
 {
-	ft_printf("%d %s",25, "Hello");
-	return (0);
+	const size_t xl = OPT_SIZE - (unsigned OP_T)s & OPT_MASK;
+
+	if (xl == 8)
+		return (0);
+	else
+		return (xl);
 }

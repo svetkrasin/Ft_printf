@@ -1,22 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_putstr_fd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: svet <svet@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/01/01 16:16:50 by svet              #+#    #+#             */
-/*   Updated: 2020/06/24 17:25:19 by svet             ###   ########.fr       */
+/*   Created: 2019/09/21 20:12:40 by skrasin           #+#    #+#             */
+/*   Updated: 2020/05/18 15:31:39 by svet             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
+#include "ft_string.h"
 #include <unistd.h>
-#include <stdio.h>
-#include <ctype.h>
 
-int	main(void)
+void	ft_putstr_fd(char const *s, int fd)
 {
-	ft_printf("%d %s",25, "Hello");
-	return (0);
+	(s != NULL) ? write(fd, s, ft_strlen(s)) : 0;
 }

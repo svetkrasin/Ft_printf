@@ -1,22 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_strrchr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: svet <svet@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/01/01 16:16:50 by svet              #+#    #+#             */
-/*   Updated: 2020/06/24 17:25:19 by svet             ###   ########.fr       */
+/*   Created: 2019/09/18 12:01:00 by skrasin           #+#    #+#             */
+/*   Updated: 2020/05/05 14:59:14 by svet             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
-#include <unistd.h>
-#include <stdio.h>
-#include <ctype.h>
+#include "ft_string.h"
+#include <sys/_types/_null.h>
 
-int	main(void)
+char	*ft_strrchr(const char *s, int c)
 {
-	ft_printf("%d %s",25, "Hello");
-	return (0);
+	const char *p;
+	const char *f;
+
+	if (c == '\0')
+		return (ft_strchr(s, '\0'));
+	f = NULL;
+	c = (unsigned char)c;
+	while ((p = ft_strchr(s, c)) != NULL)
+	{
+		f = p;
+		s = p + 1;
+	}
+	return ((char *)f);
 }

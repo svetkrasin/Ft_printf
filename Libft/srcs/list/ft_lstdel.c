@@ -1,22 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_lstdel.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: svet <svet@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/01/01 16:16:50 by svet              #+#    #+#             */
-/*   Updated: 2020/06/24 17:25:19 by svet             ###   ########.fr       */
+/*   Created: 2019/09/20 16:00:03 by skrasin           #+#    #+#             */
+/*   Updated: 2020/05/20 10:55:45 by svet             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
-#include <unistd.h>
-#include <stdio.h>
-#include <ctype.h>
+#include "ft_list.h"
+#include <stdlib.h>
 
-int	main(void)
+void	ft_lstdel(t_list **alst, void (*del)(void *, size_t))
 {
-	ft_printf("%d %s",25, "Hello");
-	return (0);
+	t_list *tmp;
+
+	if (alst != NULL)
+		while (*alst != NULL)
+		{
+			tmp = (*alst)->next;
+			del((*alst)->content, (*alst)->content_size);
+			free(*alst);
+			*alst = tmp;
+		}
 }

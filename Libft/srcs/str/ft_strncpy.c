@@ -1,22 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_strncpy.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: svet <svet@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/01/01 16:16:50 by svet              #+#    #+#             */
-/*   Updated: 2020/06/24 17:25:19 by svet             ###   ########.fr       */
+/*   Created: 2019/09/16 14:46:55 by skrasin           #+#    #+#             */
+/*   Updated: 2020/05/19 11:12:37 by svet             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
-#include <unistd.h>
-#include <stdio.h>
-#include <ctype.h>
+#include "ft_memory.h"
+#include "ft_string.h"
 
-int	main(void)
+char	*ft_strncpy(char *dst, const char *src, size_t len)
 {
-	ft_printf("%d %s",25, "Hello");
-	return (0);
+	const size_t size = ft_strnlen(src, len);
+
+	if (len > size)
+		ft_memset(dst + size, '\0', len - size);
+	return (ft_memcpy(dst, src, size));
 }

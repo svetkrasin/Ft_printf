@@ -1,22 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_strchrnul.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: svet <svet@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/01/01 16:16:50 by svet              #+#    #+#             */
-/*   Updated: 2020/06/24 17:25:19 by svet             ###   ########.fr       */
+/*   Created: 2020/06/09 07:15:19 by svet              #+#    #+#             */
+/*   Updated: 2020/06/09 07:15:58 by svet             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
-#include <unistd.h>
-#include <stdio.h>
-#include <ctype.h>
+#include "ft_memory.h"
+#include "ft_string.h"
+#include <sys/_types/_null.h>
 
-int	main(void)
+char	*ft_strchrnul(const char *s, char c)
 {
-	ft_printf("%d %s",25, "Hello");
-	return (0);
+	const size_t	len = ft_strlen(s) + 1;
+	const char		*p_ch = ft_memchr(s, c, len);
+
+	if (p_ch == NULL)
+		return ((char *)s + len - 1);
+	return ((char *)p_ch);
 }
