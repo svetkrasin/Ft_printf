@@ -6,7 +6,7 @@
 /*   By: svet <svet@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/04 17:56:31 by skrasin           #+#    #+#             */
-/*   Updated: 2020/06/20 14:30:40 by svet             ###   ########.fr       */
+/*   Updated: 2020/07/07 18:20:05 by svet             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,14 +53,8 @@ char	*ft_ultoa_base(unsigned long n, int base, int isupper)
 	return (s);
 }
 
-int		ft_upd_ret(t_printf *node, int new_ret)
+unsigned long	ft_strtoul(const char *nptr, char **endptr, int base)
 {
-	if (INT_MAX - node->done < new_ret)
-	{
-		errno = EOVERFLOW;
-		node->done = -1;
-	}
-	else
-		node->done += new_ret;
-	return (node->done);
+	return (ft_strtol(nptr, endptr, base));
 }
+

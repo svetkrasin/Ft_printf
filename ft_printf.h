@@ -6,7 +6,7 @@
 /*   By: svet <svet@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/25 10:32:11 by svet              #+#    #+#             */
-/*   Updated: 2020/06/24 17:25:32 by svet             ###   ########.fr       */
+/*   Updated: 2020/07/07 18:20:02 by svet             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,37 +23,46 @@
 # include <sys/_types/_wint_t.h>
 # include <stdlib.h>
 
-typedef struct	s_printf
+#define FMT_P			content
+
+# define FL_HASH		0x1L
+# define FL_ZERO		0x2L
+# define FL_SPACE		0x4L
+# define FL_PLUS		0x8L
+# define FL_MINUS		0x10L
+# define FL_ASTER		0x20L
+# define SHIFT_WIDTH	sizeof(int) * 8
+
+typedef struct	s_fmt
 {
-	const char		*fmt;
-	int				parametr;
-	char			flags;
-	unsigned long	width;
-	unsigned long	precision;
-	char			lenght;
-	int				done;
-	char			*fin_str;
-	const char		*ch;
-	int				save_errno;
-	va_list			ap_save;
-}				t_printf;
+	size_t		param;
+	char		flags;
+	int			width_value;
+	size_t		width_param;
+	int			prec_value;
+	size_t		prec_param;
+	char		length;
+	char		type;
+}				t_fmt;
 
-int				ft_printf(const char *restrict format, ...);
-int				ft_vfprintf(int fd, const char *restrict format, va_list ap,
-													unsigned int mode_flags);
-int				ft_vasprintf(char **result_ptr, const char *format,
-																va_list args);
-int				ft_upd_ret(t_printf *node, int newret);
-char			*ft_ultoa_base(unsigned long n, int base, int isupper);
+typedef struct	s_pos
+{
+	long		n;
+	char		type;
+}				t_pos;
 
-int				ft_parse_type(t_printf *node);
-void			ft_parse_param(t_printf *node);
-void			ft_parse_length(t_printf *node);
-void			ft_parse_flags(t_printf *node);
-void			ft_parse_width(t_printf *node);
-void			ft_parse_prec(t_printf *node);
-int				ft_str_build(char *str, t_printf *node);
-int				ft_int_build(uintmax_t val, int base, t_printf *node, int is_upper);
-size_t			ft_unum_of_digs(unsigned long n, int base);
+int			ft_vasprintf(char **result_ptr, const char *format, va_list args);
+
+const char	*fmt_flags(const char *format, char *fmt_flags);
+int			fmt_pos_or_width(const char **format_p, t_fmt *fmt, t_list **pos_p);
+int			fmt_aster(const char **format_p, t_fmt *fmt, t_list **pos_p, va_list ap);
+int			fmt_dot(const char **format_p, t_fmt *fmt, t_list **pos_p, va_list ap);
+int			fmt_lenght_and_type(const char **format_p, t_fmt *fmt);
+
+int			fmt_pos(unsigned long n, char type, t_fmt *fmt, t_list **pos_p);
+int			fmt_eoverflow(long n);
+
+unsigned long	ft_strtoul(const char *nptr, char **endptr, int base);
+
 
 #endif

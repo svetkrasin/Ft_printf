@@ -6,26 +6,39 @@
 /*   By: svet <svet@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/03 12:40:35 by svet              #+#    #+#             */
-/*   Updated: 2020/06/24 17:25:54 by svet             ###   ########.fr       */
+/*   Updated: 2020/07/07 18:19:59 by svet             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-int		ft_parse_type(t_printf *node)
-{
-	const char type = *node->fmt++;
+// int		printf_type(const char **fmt_p, t_printf *node)
+// {
+// 	const char type = **fmt_p;
 
-	if (type == 's')
-		ft_str_build(va_arg(node->ap_save, char *), node);
-	else if (type == 'c')
-		ft_str_build(ft_memset(ft_strnew(1), va_arg(node->ap_save, int), 1), node);
-	else if (type == 'p')
-		ft_int_build((unsigned long)va_arg(node->ap_save, void *), 16, node, 0);
-	else if (type == 'd' || type == 'i')
-		ft_int_build(va_arg(node->ap_save, int), 10, node, 0);
-	return (1);
-}
+// 	node->fmt = fmt_p + 1;
+// 	if (ft_memchr("diuoxXcCsSpPfFeEgGaAmn%", type, 23) == NULL)
+// 		return(-1);
+// 	if (ft_memchr("diuoxX", type, 6) != NULL && printf_nbr_wrapper(node) == 0)
+// 		return (-1);
+// 	else if (ft_memchr("cCsS", type, 4) != NULL && printf_str_wrapper(node) == 0)
+// 		return (-1);
+// 	else if ((type == 'p' || type == 'P') && printf_pointer_wrapper(node) == 0)
+// 		return (-1);
+// 	else if (ft_memchr("fFeEgGaA", type, 8) != NULL && printf_float_wrapper(node) == 0)
+// 		return (-1);
+// 	else if (type == 'm' && printf_strerror_wrapper(node) == 0)
+// 		return (-1);
+// 	else if (type == 'n' && printf_n_wrapper(node) == 0)
+// 		return (-1);
+// 	else if (type == '%' && printf_percent_wrapper(node) == 0)
+// 		return (-1);
+// 	// else if (type == 'p')
+// 	// 	ft_int_build((unsigned long)va_arg(node->ap_save, void *), 16, node, 0);
+// 	// else if (type == 'd' || type == 'i')
+// 	// 	ft_int_build(va_arg(node->ap_save, int), 10, node, 0);
+// 	return (1);
+// }
 
 // int		ft_parse_type(t_printf *node)
 // {
@@ -90,94 +103,88 @@ int		ft_parse_type(t_printf *node)
 // 	return (node->done);
 // }
 
-void		ft_parse_param(t_printf *node) //return ?
+const char			*fmt_flags(const char *format, char *fmt_flags)
 {
-	const unsigned long	n = ft_strtol(node->fmt, (char **)&node->fmt, 10); //make it unsigned
-	size_t				len = ft_unum_of_digs(n, 10);
-
-	if (n != 0)
-	{
-		if (*node->fmt == '$')
-		{
-			node->parametr = n;
-			++node->fmt;
-		}
-		else //subject to improve
-		{
-			ft_parse_flags(node);
-			ft_parse_width(node);
-		}
-	}
-}
-
-void		ft_parse_length(t_printf *node) //while ?
-{
-	const char		cur_c = *node->fmt;
-	const char		next_c = cur_c != '\0' ? *(node->fmt + 1) : '\0';
-
-	if (cur_c == 'h')
-		node->lenght |= next_c == 'h' ? 2 : 1;
-	else if (cur_c == 'l' || cur_c == 'j' || cur_c == 'z' || cur_c == 't')
-		node->lenght |= next_c == 'l' ? 8 : 4;
-	else if (cur_c == 'L')
-		node->lenght |= 16;
-	if (node->lenght != 0)
-		node->fmt += 1 + (next_c == 'h' || next_c == 'l' ? 1 : 0);
-}
-
-void		ft_parse_flags(t_printf *node)
-{
-	const char	*flags = "#0 +-*";
-	const char	*flag;
+	const char	*flags = "#0 +-";
+	const char	*cur_flag;
 	char		c;
-	long		n;
 
-	c = node->flags;
-	while ((flag = ft_memchr(flags, *node->fmt, 6)) != NULL && ++node->fmt)
-		c |= 1 << (flag - flags);
-	c & 8 ? c &= 4 : 0;
-	c & 16 && !(c & 32) ? c &= ~2 : 0;
-	if (c & 64)
+	c = *fmt_flags;
+	while ((cur_flag = ft_memchr(flags, *format, 6)) != NULL)
 	{
-		c &= ~64;
-		if ((n = va_arg(node->ap_save, long)) < 0L)
-		{
-			c |= 16;
-			node->width = -n;
-		}
-		else
-		{
-			c &= 16;
-			node->width = n;
-		}
+		c |= 1 << (cur_flag - flags);
+		++format;
 	}
-	node->flags = c;
+	c & FL_PLUS ? c &= ~FL_SPACE : 0;
+	*fmt_flags = c & FL_MINUS ? c & ~FL_ZERO : c;
+	return (format);
 }
 
-void		ft_parse_width(t_printf *node) //positional n$??
+static inline int	fmt_width(long n, t_fmt *fmt)
 {
-	unsigned long n;
-
-	if (node->width == 0)
-	{
-		n = ft_strtol(node->fmt, (char **)&(node->fmt), 10);
-		node->width = n;
-	}
+	if (fmt_eoverflow(n) == 1)
+		return (-2);
+	fmt->width_value = n;
+	fmt->width_param = 0L;
+	return (0);
 }
 
-void		ft_parse_prec(t_printf *node)
-{
-	long 				n;
-	const unsigned long	w_cpy = node->width;
 
-	if (*node->fmt == '.')
+int					fmt_pos(unsigned long n, char type, t_fmt *fmt,
+																t_list **pos_p)
+{
+	t_pos	new_pos;
+	t_list	*tmp_node;
+
+	if (n == 0)
+		return (0);
+	new_pos.n = n;
+	new_pos.type = 0;
+	fmt->param = n;
+	if ((tmp_node = ft_lstnew(&new_pos, sizeof(t_pos))) == NULL)
+		return (-1);
+	ft_lstadd(pos_p, tmp_node);
+	return (1);
+}
+
+int					fmt_pos_or_width(const char **format_p, t_fmt *fmt,
+																t_list **pos_p)
+{
+	const char			*format = *format_p;
+	const unsigned long	n = ft_strtoul(format, (char **)&format, 10);
+
+	if (*format == '$')
 	{
-		++node->fmt;
-		node->width = 0;
-		ft_parse_flags(node);
-		ft_parse_width(node);
-		node->precision = node->width;
-		node->width = w_cpy;
-		// (p->f & F_PLUS) ? p->f &= ~F_SPACE : 0;
+		*format_p = format + 1;
+		return (fmt_pos(n, 0, fmt, pos_p) == -1 ? -1 : 0);
 	}
+	*format_p = format;
+	return (fmt_width(n, fmt));
+}
+
+int					fmt_aster(const char **format_p, t_fmt *fmt, t_list **pos_p,
+																	va_list ap)
+{
+	int				ast;
+	unsigned long	n;
+	const char		*format = *format_p;
+
+	if (ft_isdigit(*++format) == 1)
+	{
+		n = ft_strtoul(format, (char **)&format, 10);
+		if (*format == '$')
+		{
+			*format_p = format + 1;
+			fmt->width_value = 0;
+			fmt->width_param = n;
+			return (fmt_pos(n, 'i', fmt, pos_p));
+		}
+	}
+	ast = va_arg(ap, int);
+	if (ast < 0)
+	{
+		fmt->flags |= FL_MINUS;
+		ast = -ast;
+	}
+	return (fmt_width(ast, fmt));
 }

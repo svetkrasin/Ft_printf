@@ -6,7 +6,7 @@
 /*   By: svet <svet@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/03 15:00:39 by skrasin           #+#    #+#             */
-/*   Updated: 2020/05/30 20:09:35 by svet             ###   ########.fr       */
+/*   Updated: 2020/06/29 21:35:58 by svet             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,10 @@
 #include "ft_list.h"
 #include <unistd.h>
 #include <stdlib.h>
-#define BUFF_SIZE 4096
+#define BUFF_SIZE	4096
+#define	FD_N		content_size
 
-static inline t_list	*ft_lstsearch(size_t content_size)
+static inline t_list	*ft_lstsearch(size_t fd)
 {
 	static t_list	*store = NULL;
 	t_list			*node;
@@ -26,7 +27,7 @@ static inline t_list	*ft_lstsearch(size_t content_size)
 	node = store;
 	while (node != NULL)
 	{
-		if (node->content_size == content_size)
+		if (node->FD_N == fd)
 			return (node);
 		node = node->next;
 	}
@@ -35,7 +36,7 @@ static inline t_list	*ft_lstsearch(size_t content_size)
 	free(tmp);
 	if (store == NULL)
 		return (NULL);
-	store->content_size = content_size;
+	store->FD_N = fd;
 	return (store);
 }
 

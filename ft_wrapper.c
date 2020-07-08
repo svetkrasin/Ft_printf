@@ -1,28 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_printf.c                                        :+:      :+:    :+:   */
+/*   ft_wrapper.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: svet <svet@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/12/25 10:30:46 by svet              #+#    #+#             */
-/*   Updated: 2020/06/26 12:05:49 by svet             ###   ########.fr       */
+/*   Created: 2020/06/29 17:53:45 by svet              #+#    #+#             */
+/*   Updated: 2020/06/30 15:01:47 by svet             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
-#include <unistd.h>
 
-int		ft_printf(const char *restrict format, ...)
+int	printf_nbr_wrapper(t_printf *node)
 {
-	va_list arg;
-	int		done;
-	char	*fstr;
-
-	va_start(arg, format);
-	done = ft_vasprintf(&fstr, format, arg);
-	va_end(arg);
-	if (done > 0)
-		write(STDOUT_FILENO, fstr, done);
-	return (done);
+	
 }
