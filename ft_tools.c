@@ -6,7 +6,7 @@
 /*   By: svet <svet@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/04 17:56:31 by skrasin           #+#    #+#             */
-/*   Updated: 2020/07/07 18:20:05 by svet             ###   ########.fr       */
+/*   Updated: 2020/07/11 11:36:05 by svet             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,3 +58,15 @@ unsigned long	ft_strtoul(const char *nptr, char **endptr, int base)
 	return (ft_strtol(nptr, endptr, base));
 }
 
+size_t			ft_lst_length(t_list *head)
+{
+	size_t	n;
+
+	n = 0;
+	while (head != NULL)
+	{
+		++n;
+		head = head->next;
+	}
+	return (n);
+}

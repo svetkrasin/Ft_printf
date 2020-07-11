@@ -6,11 +6,11 @@
 /*   By: svet <svet@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/14 13:54:32 by svet              #+#    #+#             */
-/*   Updated: 2020/06/09 06:46:50 by svet             ###   ########.fr       */
+/*   Updated: 2020/07/10 21:42:43 by svet             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_char.h"
+#include "ft_ctype.h"
 #include "ft_math.h"
 #include <limits.h>
 #include <sys/_types/_null.h>

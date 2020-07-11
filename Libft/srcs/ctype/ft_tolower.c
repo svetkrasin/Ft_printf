@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_toupper.c                                       :+:      :+:    :+:   */
+/*   ft_tolower.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: svet <svet@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/09/18 14:36:55 by skrasin           #+#    #+#             */
-/*   Updated: 2020/05/06 13:43:35 by svet             ###   ########.fr       */
+/*   Created: 2019/09/18 14:40:39 by skrasin           #+#    #+#             */
+/*   Updated: 2020/07/10 21:40:34 by svet             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_char.h"
+#include "ft_ctype.h"
 
-int		ft_toupper(int c)
+int		ft_tolower(int c)
 {
-	return (ft_islower(c) ? c - 'a' + 'A' : c);
+	return (ft_isupper(c) ? c - 'A' + 'a' : c);
 }

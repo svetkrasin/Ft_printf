@@ -6,7 +6,7 @@
 /*   By: svet <svet@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/03 12:40:35 by svet              #+#    #+#             */
-/*   Updated: 2020/07/07 18:19:59 by svet             ###   ########.fr       */
+/*   Updated: 2020/07/11 11:34:20 by svet             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,35 +103,47 @@
 // 	return (node->done);
 // }
 
-const char			*fmt_flags(const char *format, char *fmt_flags)
-{
-	const char	*flags = "#0 +-";
-	const char	*cur_flag;
-	char		c;
+#include "ft_printf.h"
 
-	c = *fmt_flags;
+void		fmt_upd_flags(int flag, t_fmt *fmt)
+{
+	int flags;
+
+	flags = fmt->flags;
+	if (flag & FL_LADJUST)
+		flags &= ~FL_ZEROPAD;
+	flags |= flag;
+	fmt->flags = flags;
+}
+
+const char	*fmt_flags(const char *format, t_fmt *fmt)
+{
+	const char	*flags = "#+ 0-";
+	const char	*cur_flag;
+	int			c;
+
+	c = fmt->flags;
 	while ((cur_flag = ft_memchr(flags, *format, 6)) != NULL)
 	{
-		c |= 1 << (cur_flag - flags);
+		c |= FL_ALT << (cur_flag - flags);
 		++format;
 	}
-	c & FL_PLUS ? c &= ~FL_SPACE : 0;
-	*fmt_flags = c & FL_MINUS ? c & ~FL_ZERO : c;
+	c & FL_SIGN ? c &= ~FL_SPACE : 0;
+	fmt_upd_flags(c, fmt);
 	return (format);
 }
 
-static inline int	fmt_width(long n, t_fmt *fmt)
+int			fmt_width(long n, t_fmt *fmt)
 {
 	if (fmt_eoverflow(n) == 1)
 		return (-2);
-	fmt->width_value = n;
-	fmt->width_param = 0L;
+	fmt->width_val = n;
+	fmt->width_pos = 0L;
 	return (0);
 }
 
 
-int					fmt_pos(unsigned long n, char type, t_fmt *fmt,
-																t_list **pos_p)
+int			fmt_pos(unsigned long n, char type, t_fmt *fmt, t_list **pos_p)
 {
 	t_pos	new_pos;
 	t_list	*tmp_node;
@@ -139,16 +151,17 @@ int					fmt_pos(unsigned long n, char type, t_fmt *fmt,
 	if (n == 0)
 		return (0);
 	new_pos.n = n;
-	new_pos.type = 0;
-	fmt->param = n;
+	new_pos.type = type;
+	new_pos.flags = 0;
+	if (type == 0)
+		fmt->param = n;
 	if ((tmp_node = ft_lstnew(&new_pos, sizeof(t_pos))) == NULL)
 		return (-1);
 	ft_lstadd(pos_p, tmp_node);
 	return (1);
 }
 
-int					fmt_pos_or_width(const char **format_p, t_fmt *fmt,
-																t_list **pos_p)
+int			fmt_pos_or_width(const char **format_p, t_fmt *fmt, t_list **pos_p)
 {
 	const char			*format = *format_p;
 	const unsigned long	n = ft_strtoul(format, (char **)&format, 10);
@@ -156,13 +169,13 @@ int					fmt_pos_or_width(const char **format_p, t_fmt *fmt,
 	if (*format == '$')
 	{
 		*format_p = format + 1;
-		return (fmt_pos(n, 0, fmt, pos_p) == -1 ? -1 : 0);
+		return (fmt_pos(n, 0, fmt, pos_p));
 	}
 	*format_p = format;
 	return (fmt_width(n, fmt));
 }
 
-int					fmt_aster(const char **format_p, t_fmt *fmt, t_list **pos_p,
+int			fmt_aster(const char **format_p, t_fmt *fmt, t_list **pos_p,
 																	va_list ap)
 {
 	int				ast;
@@ -175,15 +188,15 @@ int					fmt_aster(const char **format_p, t_fmt *fmt, t_list **pos_p,
 		if (*format == '$')
 		{
 			*format_p = format + 1;
-			fmt->width_value = 0;
-			fmt->width_param = n;
+			fmt->width_val = 0;
+			fmt->width_pos = n;
 			return (fmt_pos(n, 'i', fmt, pos_p));
 		}
 	}
 	ast = va_arg(ap, int);
 	if (ast < 0)
 	{
-		fmt->flags |= FL_MINUS;
+		fmt_upd_flags(FL_LADJUST, fmt);
 		ast = -ast;
 	}
 	return (fmt_width(ast, fmt));

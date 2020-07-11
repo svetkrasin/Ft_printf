@@ -1,18 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_islower.c                                       :+:      :+:    :+:   */
+/*   ft_isbetween.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: svet <svet@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/11/15 18:53:12 by skrasin           #+#    #+#             */
-/*   Updated: 2020/05/06 13:40:36 by svet             ###   ########.fr       */
+/*   Created: 2020/05/06 11:43:33 by svet              #+#    #+#             */
+/*   Updated: 2020/07/10 21:39:47 by svet             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_char.h"
+#include "ft_ctype.h"
 
-int		ft_islower(int c)
+int	ft_isbetween(int x, int m, int n)
 {
-	return (c >= 'a' && c <= 'z');
+	return ((int)(((((unsigned long)x) - ~0UL / 255 * ((unsigned long)n)) &
+		~((unsigned long)x) & (((unsigned long)x) & ~0UL / 255 * 127) + ~0UL /
+						255 * (127 - ((unsigned long)m))) & ~0UL / 255 * 128));
 }

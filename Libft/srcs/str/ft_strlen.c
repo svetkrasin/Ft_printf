@@ -6,7 +6,7 @@
 /*   By: svet <svet@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/16 13:21:05 by skrasin           #+#    #+#             */
-/*   Updated: 2020/05/15 18:02:18 by svet             ###   ########.fr       */
+/*   Updated: 2020/07/10 14:51:45 by svet             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,17 +14,16 @@
 
 static inline  int	ft_testoptstrlen(const unsigned OP_T *uls)
 {
-	register const char				*c;
+	register const char				*c = (const char *)uls;
 	register	size_t				i;
 	register const unsigned OP_T	size = OPT_SIZE;
 
-	c = (const char *)uls;
 	i = 0;
 	while (i < size)
 	{
 		if (c[i] == '\0')
 			return (i);
-		i++;
+		++i;
 	}
 	return (-1);
 }
@@ -32,8 +31,8 @@ static inline  int	ft_testoptstrlen(const unsigned OP_T *uls)
 size_t				ft_strlen(const char *str)
 {
 	const char						*s = str;
-	register	const unsigned OP_T	*uls;
-	register unsigned OP_T			x;
+	register const unsigned OP_T	*uls;
+	register int					x;
 
 	x = ft_optmemalign(s);
 	while (x-- != 0)

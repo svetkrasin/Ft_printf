@@ -6,7 +6,7 @@
 #    By: svet <svet@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/10/04 15:46:13 by skrasin           #+#    #+#              #
-#    Updated: 2020/06/08 19:28:21 by svet             ###   ########.fr        #
+#    Updated: 2020/07/10 22:02:56 by svet             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,7 @@
 
 #	Sources
 srcdir := ./srcs/
-srcdirs := char mem str io math list
+srcdirs := ctype mem str io math list
 srcdirs_bonus := list_bonus
 
 #	Includes
@@ -30,7 +30,7 @@ LIB			=
 NAME := libft.a
 
 #	Compiler
-CFLAGS := -O3 -Wall -Wextra -Werror -pedantic# -Weverything
+CFLAGS := -Ofast -Wall -Wextra -Werror -pedantic# -Weverything
 CPPFLAGS := -I$(incdir)
 
 #	Archive
@@ -69,4 +69,4 @@ fclean: clean
 #	All removing then compiling
 re: fclean all
 
-.PHONY: all clean fclean re bonus srcs includes char mem str io math list list_bonus
+.PHONY: all clean fclean re bonus srcs includes ctype mem str io math list list_bonus
