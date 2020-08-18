@@ -6,12 +6,12 @@
 /*   By: svet <svet@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/20 16:00:03 by skrasin           #+#    #+#             */
-/*   Updated: 2020/05/20 10:55:45 by svet             ###   ########.fr       */
+/*   Updated: 2020/07/18 12:37:15 by svet             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_list.h"
-#include <stdlib.h>
+#include <sys/_types/_null.h>
 
 void	ft_lstdel(t_list **alst, void (*del)(void *, size_t))
 {
@@ -21,8 +21,7 @@ void	ft_lstdel(t_list **alst, void (*del)(void *, size_t))
 		while (*alst != NULL)
 		{
 			tmp = (*alst)->next;
-			del((*alst)->content, (*alst)->content_size);
-			free(*alst);
+			ft_lstdelone(alst, del);
 			*alst = tmp;
 		}
 }

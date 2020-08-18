@@ -6,12 +6,12 @@
 /*   By: svet <svet@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/20 10:44:50 by svet              #+#    #+#             */
-/*   Updated: 2020/05/25 13:31:45 by svet             ###   ########.fr       */
+/*   Updated: 2020/07/21 21:19:12 by svet             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "ft_memory.h"
 #include "ft_list_bonus.h"
-#include <stdlib.h>
 #include <sys/_types/_null.h>
 
 void	ft_lstclear(t_list **lst, void (*del)(void *))
@@ -23,7 +23,7 @@ void	ft_lstclear(t_list **lst, void (*del)(void *))
 		{
 			del((*lst)->content);
 			tmp = (*lst)->next;
-			free(*lst);
+			ft_memdel((void **)lst);
 			*lst = tmp;
 		}
 	lst = NULL;

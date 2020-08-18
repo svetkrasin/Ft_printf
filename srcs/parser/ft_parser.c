@@ -5,23 +5,13 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: svet <svet@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/06/03 12:40:35 by svet              #+#    #+#             */
-/*   Updated: 2020/07/17 12:48:03 by svet             ###   ########.fr       */
+/*   Created: 2020/06/30 18:21:08 by svet              #+#    #+#             */
+/*   Updated: 2020/08/17 14:28:43 by svet             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
-
-void		fmt_upd_flags(int flag, t_fmt *fmt)
-{
-	int flags;
-
-	flags = fmt->flags;
-	if (flag & FL_LADJUST)
-		flags &= ~FL_ZEROPAD;
-	flags |= flag;
-	fmt->flags = flags;
-}
+#include "ft_parser.h"
+#include <sys/_types/_null.h>
 
 const char	*fmt_flags(const char *format, t_fmt *fmt)
 {
@@ -48,7 +38,6 @@ int			fmt_width(long n, t_fmt *fmt)
 	fmt->width_pos = 0L;
 	return (0);
 }
-
 
 int			fmt_pos(unsigned long n, char type, t_fmt *fmt, t_list **pos_p)
 {

@@ -6,13 +6,13 @@
 /*   By: svet <svet@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/23 14:50:03 by svet              #+#    #+#             */
-/*   Updated: 2020/07/10 21:40:26 by svet             ###   ########.fr       */
+/*   Updated: 2020/07/17 18:20:26 by svet             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ctype.h"
 
-int		ft_isspace(int c)
+int	ft_isspace(int c)
 {
 	return (c == ' ' || (c >= '\t' && c <= '\r'));
 }

@@ -6,13 +6,13 @@
 /*   By: svet <svet@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/19 15:13:27 by skrasin           #+#    #+#             */
-/*   Updated: 2020/06/08 17:40:00 by svet             ###   ########.fr       */
+/*   Updated: 2020/07/17 18:28:05 by svet             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_memory.h"
 
-void				*ft_mempcpy(void *dst, const void *src, size_t n)
+void	*ft_mempcpy(void *dst, const void *src, size_t n)
 {
 	return ((void *)((OP_T)ft_memcpy(dst, src, n) + n));
 }

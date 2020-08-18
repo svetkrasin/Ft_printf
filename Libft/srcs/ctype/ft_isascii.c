@@ -6,13 +6,13 @@
 /*   By: svet <svet@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/18 14:24:51 by skrasin           #+#    #+#             */
-/*   Updated: 2020/07/10 21:39:42 by svet             ###   ########.fr       */
+/*   Updated: 2020/07/17 18:19:52 by svet             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ctype.h"
 
-int		ft_isascii(int c)
+int	ft_isascii(int c)
 {
 	return (!(c & ~0x7F));
 }

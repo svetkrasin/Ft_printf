@@ -6,15 +6,15 @@
 /*   By: svet <svet@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/18 15:48:53 by svet              #+#    #+#             */
-/*   Updated: 2020/06/08 20:47:14 by svet             ###   ########.fr       */
+/*   Updated: 2020/07/21 21:29:51 by svet             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <sys/_types/_size_t.h>
+#include <_types/_intmax_t.h>
 
-size_t	ft_num_of_digs(long n, int base)
+unsigned int	ft_num_of_digs(intmax_t n, int base)
 {
-	size_t l;
+	unsigned int l;
 
 	l = n == 0 ? 1 : 0;
 	while (n != 0)

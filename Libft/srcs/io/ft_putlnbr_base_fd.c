@@ -6,7 +6,7 @@
 /*   By: svet <svet@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/18 15:52:33 by svet              #+#    #+#             */
-/*   Updated: 2020/06/15 20:30:03 by svet             ###   ########.fr       */
+/*   Updated: 2020/07/17 19:16:11 by svet             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,11 @@
 
 void	ft_putlnbr_base_fd(long n, int base, int isupper, int fd)
 {
-	char		s[22];
-	size_t		len;
-	long		rem;
-	const long	sign = n < 0 ? 1L : 0L;
-	const char	a = isupper == 1 ? 'A' : 'a';
+	register const char	a = isupper == 1 ? 'A' : 'a';
+	register const long	sign = n < 0 ? 1L : 0L;
+	register long		rem;
+	register char		s[22];
+	register size_t		len;
 
 	if (base == 0)
 		base = 10;

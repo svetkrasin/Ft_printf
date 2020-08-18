@@ -6,13 +6,13 @@
 /*   By: svet <svet@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/18 14:40:39 by skrasin           #+#    #+#             */
-/*   Updated: 2020/07/10 21:40:34 by svet             ###   ########.fr       */
+/*   Updated: 2020/07/17 18:20:34 by svet             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ctype.h"
 
-int		ft_tolower(int c)
+int	ft_tolower(int c)
 {
 	return (ft_isupper(c) ? c - 'A' + 'a' : c);
 }

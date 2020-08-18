@@ -1,18 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_wrapper.c                                       :+:      :+:    :+:   */
+/*   ft_isinf.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: svet <svet@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/06/29 17:53:45 by svet              #+#    #+#             */
-/*   Updated: 2020/06/30 15:01:47 by svet             ###   ########.fr       */
+/*   Created: 2020/08/10 16:27:35 by svet              #+#    #+#             */
+/*   Updated: 2020/08/10 17:37:47 by svet             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
-
-int	printf_nbr_wrapper(t_printf *node)
+int	ft_isinf(long double d)
 {
-	
+	int i;
+
+	i = *((int *)&d + 1);
+	if (i == 0x7ff00000)
+		return (1);
+	if ((unsigned int)i == 0xfff00000)
+		return (-1);
+	return (0);
 }

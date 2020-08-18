@@ -6,22 +6,24 @@
 /*   By: svet <svet@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/06 15:56:42 by svet              #+#    #+#             */
-/*   Updated: 2020/07/11 11:34:53 by svet             ###   ########.fr       */
+/*   Updated: 2020/08/18 12:10:03 by svet             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
+#include "ft_parser.h"
+#include <limits.h>
+#include <sys/_types/_null.h>
 
 int	fmt_eoverflow(long n)
 {
 	return (n >= INT_MAX || n < 0 ? 1 : 0);
 }
 
-int	fmt_prec(long n, t_fmt *fmt)
+int	fmt_prec(long value, t_fmt *fmt)
 {
-	if (fmt_eoverflow(n) == 1)
+	if (fmt_eoverflow(value) == 1)
 		return (-2);
-	fmt->prec_val = n;
+	fmt->prec_val = value;
 	fmt->prec_pos = 0L;
 	return (0);
 }
@@ -39,9 +41,9 @@ int	fmt_dot(const char **format_p, t_fmt *fmt, t_list **pos_p, va_list ap)
 	unsigned long	n;
 	const char		*format = *format_p;
 
-	if (ft_isdigit(*++format) == 1)
+	if ((fmt->prec_val = 0) || ft_isdigit(*++format) == 1)
 		return (fmt_prec(ft_strtoul(format, (char **)format_p, 10), fmt));
-	else if (*format == '*')
+	if (*format == '*')
 	{
 		*format_p = ++format;
 		if (ft_isdigit(*format) == 1)
@@ -58,6 +60,7 @@ int	fmt_dot(const char **format_p, t_fmt *fmt, t_list **pos_p, va_list ap)
 			return ((ast = va_arg(ap, int)) < 0 ? fmt_set_prec(-1, 0, fmt) :
 															fmt_prec(ast, fmt));
 	}
+	*format_p = format;
 	return (0);
 }
 
@@ -81,10 +84,9 @@ int	fmt_lenght_and_type(const char **format_p, t_fmt *fmt)
 	}
 	fmt->flags |= length;
 	type = *format;
-	if (ft_memchr("dDiUuoOxXcCsSpPfFeEgGaAmn%", type, 26) == NULL)
-		return (0);
-	if (ft_memchr("DUOS", type, 4) != NULL)
-		fmt->flags |= FL_LONGINT;
+	// if (ft_memchr("diuoxcspfegamn%XFEGADUOSCP", type, 26) == NULL)
+	// 	return (0);
+	fmt_revise_flags(type, fmt);
 	fmt->type = type;
 	*format_p = format + 1;
 	return (1);

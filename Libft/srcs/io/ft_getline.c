@@ -6,23 +6,22 @@
 /*   By: svet <svet@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/03 15:00:39 by skrasin           #+#    #+#             */
-/*   Updated: 2020/06/29 21:35:58 by svet             ###   ########.fr       */
+/*   Updated: 2020/07/21 19:00:05 by svet             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_memory.h"
 #include "ft_string.h"
 #include "ft_list.h"
 #include <unistd.h>
-#include <stdlib.h>
 #define BUFF_SIZE	4096
-#define	FD_N		content_size
+#define FD_N		content_size
 
 static inline t_list	*ft_lstsearch(size_t fd)
 {
 	static t_list	*store = NULL;
-	t_list			*node;
-	char			*tmp;
+	register t_list	*node;
+	char			*tmp_str;
+	t_list			*tmp_node;
 
 	node = store;
 	while (node != NULL)
@@ -31,11 +30,13 @@ static inline t_list	*ft_lstsearch(size_t fd)
 			return (node);
 		node = node->next;
 	}
-	tmp = ft_strnew(BUFF_SIZE);
-	ft_lstadd(&store, ft_lstnew(tmp, BUFF_SIZE + 1));
-	free(tmp);
-	if (store == NULL)
+	if ((tmp_str = ft_strnew(BUFF_SIZE)) == NULL)
 		return (NULL);
+	tmp_node = ft_lstnew(tmp_str, BUFF_SIZE + 1);
+	ft_strdel(&tmp_str);
+	if (tmp_node == NULL)
+		return (NULL);
+	ft_lstadd(&store, tmp_node);
 	store->FD_N = fd;
 	return (store);
 }
@@ -44,8 +45,8 @@ int						ft_getline(const int fd, char **line)
 {
 	ssize_t			len;
 	t_list			*node;
-	char			buf[BUFF_SIZE + 1];
-	char			*nl;
+	register char	buf[BUFF_SIZE + 1];
+	register char	*nl;
 
 	if (fd < 0 || line == NULL || read(fd, 0, 0) == -1 ||
 											(node = ft_lstsearch(fd)) == NULL)
@@ -55,12 +56,14 @@ int						ft_getline(const int fd, char **line)
 		if ((len = read(fd, buf, BUFF_SIZE)) <= 0)
 			break ;
 		buf[len] = '\0';
-		ft_strappend((char **)&node->content, buf);
+		if (ft_strappend((char **)&node->content, buf) == NULL)
+			return (-1);
 	}
 	*line = nl ? ft_strsub(node->content, 0, nl - (char *)node->content) :
 					ft_strdup(node->content);
 	*(char *)node->content = '\0';
-	nl ? ft_strappend((char **)&node->content, nl + 1) :
-		ft_strappend((char **)&node->content, node->content);
+	if ((nl ? ft_strappend((char **)&node->content, nl + 1) :
+		ft_strappend((char **)&node->content, node->content)) == NULL)
+		return (-1);
 	return ((**line == '\0' && !len) ? 0 : 1);
 }

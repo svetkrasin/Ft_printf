@@ -6,13 +6,12 @@
 /*   By: svet <svet@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/17 17:00:53 by skrasin           #+#    #+#             */
-/*   Updated: 2020/05/15 17:57:28 by svet             ###   ########.fr       */
+/*   Updated: 2020/07/21 18:55:11 by svet             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_string.h"
 #include "ft_memory.h"
-#include <sys/_types/_size_t.h>
+#include "ft_string.h"
 
 char	*ft_strncat(char *s1, char *s2, size_t n)
 {

@@ -6,7 +6,7 @@
 /*   By: svet <svet@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/21 20:09:29 by skrasin           #+#    #+#             */
-/*   Updated: 2020/07/10 21:49:24 by svet             ###   ########.fr       */
+/*   Updated: 2020/07/18 11:48:04 by svet             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	ft_putchar_fd(wchar_t c, int fd)
 	{
 		i = 5;
 		ft_bzero(buf, 6);
-		while(c > 0x1F && i > 0)
+		while (c > 0x1F && i > 0)
 		{
 			buf[i--] = c ^ ((c ^ 0x80) & 0xFFFFFFC0);
 			c >>= 6;

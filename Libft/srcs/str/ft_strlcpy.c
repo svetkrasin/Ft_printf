@@ -6,18 +6,19 @@
 /*   By: svet <svet@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/06 20:12:00 by svet              #+#    #+#             */
-/*   Updated: 2020/05/19 12:09:10 by svet             ###   ########.fr       */
+/*   Updated: 2020/07/20 15:06:11 by svet             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_string.h"
 #include "ft_memory.h"
+#include "ft_string.h"
+#include <sys/_types/_null.h>
 
 size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize)
 {
 	size_t n;
 
-	if (!dst || !src)
+	if (dst == NULL || src == NULL)
 		return (0);
 	n = ft_strlen(src);
 	if (dstsize != 0)

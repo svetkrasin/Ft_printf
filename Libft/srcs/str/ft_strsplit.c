@@ -6,7 +6,7 @@
 /*   By: svet <svet@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/18 22:06:48 by svet              #+#    #+#             */
-/*   Updated: 2020/05/19 12:05:23 by svet             ###   ########.fr       */
+/*   Updated: 2020/07/24 13:17:53 by svet             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,16 @@ static inline size_t		ft_all_words(char const *s, char c)
 	return (i);
 }
 
+static inline void			ft_del(char ***arrstr, size_t n)
+{
+	size_t i;
+
+	i = 0;
+	while (i < n)
+		ft_strdel(*arrstr + i++);
+	ft_memdel((void **)arrstr);
+}
+
 char						**ft_strsplit(char const *s, char c)
 {
 	char	**arrstr;
@@ -58,19 +68,22 @@ char						**ft_strsplit(char const *s, char c)
 
 	if (s == NULL)
 		return (NULL);
-	i = -1;
+	i = 0;
 	n = ft_all_words(s, c);
-	if ((arrstr = (char **)ft_memalloc((n + 1) * sizeof(char *))))
+	if ((arrstr = (char **)ft_memalloc((n + 1) * sizeof(char *))) == NULL)
+		return (NULL);
+	while (i < n)
 	{
-		while (++i < n)
+		s = ft_skip(s, c);
+		m = ft_len_word(s, c);
+		if ((arrstr[i] = ft_strnew(m)) == NULL)
 		{
-			s = ft_skip(s, c);
-			m = ft_len_word(s, c);
-			arrstr[i] = (char *)ft_memalloc((m + 1) * sizeof(char));
-			arrstr[i] = ft_strncpy(arrstr[i], s, m);
-			s += m;
+			ft_del(&arrstr, i);
+			return (NULL);
 		}
-		return (arrstr);
+		arrstr[i] = ft_strncpy(arrstr[i], s, m);
+		s += m;
+		i++;
 	}
-	return (NULL);
+	return (arrstr);
 }

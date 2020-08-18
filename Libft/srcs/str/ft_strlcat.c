@@ -6,12 +6,12 @@
 /*   By: svet <svet@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/18 10:20:00 by skrasin           #+#    #+#             */
-/*   Updated: 2020/05/19 12:07:48 by svet             ###   ########.fr       */
+/*   Updated: 2020/07/20 15:01:15 by svet             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_string.h"
 #include "ft_memory.h"
+#include "ft_string.h"
 
 size_t	ft_strlcat(char *dst, const char *src, size_t dstsize)
 {
@@ -22,16 +22,9 @@ size_t	ft_strlcat(char *dst, const char *src, size_t dstsize)
 	l = ndst + 1;
 	if (l < dstsize)
 	{
-		if (nsrc > dstsize - l)
-			l = dstsize - l;
-		else
-			l = nsrc;
+		l = nsrc > (dstsize - l) ? (dstsize - l) : nsrc;
 		ft_memcpy(dst + ndst, src, l);
 		dst[ndst + l] = '\0';
 	}
-	if (dstsize < ndst)
-		l = nsrc + dstsize;
-	else
-		l = nsrc + ndst;
-	return (l);
+	return (nsrc + (dstsize < ndst ? dstsize : ndst));
 }

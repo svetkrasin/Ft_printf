@@ -6,7 +6,7 @@
 /*   By: svet <svet@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/14 13:54:32 by svet              #+#    #+#             */
-/*   Updated: 2020/07/10 21:42:43 by svet             ###   ########.fr       */
+/*   Updated: 2020/08/18 12:34:45 by svet             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,8 @@ long						ft_strtol(const char *nptr, char **endptr, int base)
 		base = *s++ == '0' ? 8 : 10;
 	if (base < 2 || base > 36)
 		return (0);
+	while (*s == '0')
+		s++;
 	acc = ft_parsestr(s, sign, base, &any);
 	if (endptr != NULL)
 		*endptr = (char *)(any ? s + ft_num_of_digs(acc, base) : nptr);

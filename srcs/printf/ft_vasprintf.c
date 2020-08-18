@@ -5,12 +5,16 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: svet <svet@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/02/26 20:02:17 by skrasin           #+#    #+#             */
-/*   Updated: 2020/07/11 11:37:07 by svet             ###   ########.fr       */
+/*   Created: 2020/06/30 15:05:57 by svet              #+#    #+#             */
+/*   Updated: 2020/08/18 10:20:19 by svet             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
+#include "ft_builder.h"
+#include "ft_processor.h"
+#include "limits.h"
+#include <sys/_types/_null.h>
+#include <sys/_types/_ptrdiff_t.h>
 
 static inline ptrdiff_t	fmt_parser(t_fmt *fmt, const char *format,
 													t_list **pos_p, va_list ap)
@@ -42,19 +46,23 @@ static inline ptrdiff_t	fmt_parser(t_fmt *fmt, const char *format,
 			return (0);
 }
 
-static inline int	fmt_str(const char *format, ptrdiff_t m, t_list **out_p)
+static inline int		fmt_as_str(const char *format, ptrdiff_t m,
+																t_list **out_p)
 {
 	t_list	*tmp_node;
 
 	if (m > INT_MAX)
 		return (-2);
-	if ((tmp_node = ft_lstnew(format, m)) == NULL)
-		return (-1);
-	ft_lstadd(out_p, tmp_node);
+	if (m > 0) //necessary?
+	{
+		if ((tmp_node = ft_lstnew(format, m)) == NULL)
+			return (-1);
+		ft_lstadd(out_p, tmp_node);
+	}
 	return (0);
 }
 
-static inline int	fmt_prep(t_fmt **fmt_p)
+static inline int		fmt_prep(t_fmt **fmt_p)
 {
 	t_fmt	*tmp_fmt;
 
@@ -65,49 +73,57 @@ static inline int	fmt_prep(t_fmt **fmt_p)
 	return (0);
 }
 
-static inline int	fmt_proc(t_list **out_p, t_list **fmt_p, t_list **pos_p,
-												const char *format, va_list ap)
+static inline int		fmt_proc(t_list *heads[3], const char *format, va_list ap)
 {
 	const char	*ch_p;
 	t_list		*tmp_node;
 	t_fmt		*tmp_fmt;
 	ptrdiff_t	m;
 
-	while ((ch_p = ft_strchrnul(format, '%'))) //carefull with "\0"
+	while ((ch_p = ft_strchrnul(format, '%')))
 	{
-		if ((m = fmt_str(format, ch_p - format, out_p)) < 0)
+		if ((m = fmt_as_str(format, ch_p - format, &heads[0])) < 0)
 			return (m);
 		if (*ch_p == '\0' || *++ch_p == '\0')
 			return (0);
-		ft_lstadd(out_p, ft_lstnew(NULL, 0));
+		ft_lstadd(&heads[0], ft_lstnew(NULL, 0));
 		if (fmt_prep(&tmp_fmt) == -1)
 			return (-1);
-		if ((m = fmt_parser(tmp_fmt, ch_p, pos_p, ap)) < 0)
+		if ((m = fmt_parser(tmp_fmt, ch_p, &heads[2], ap)) < 0)
 			return (m);
 		format = ch_p + m;
 		if ((tmp_node = ft_lstnew(tmp_fmt, sizeof(t_fmt))) == NULL)
 			return (-1);
-		ft_memdel((void **)&tmp_fmt); //delone?
-		ft_lstadd(fmt_p, tmp_node);
+		ft_memdel((void **)&tmp_fmt); //ft_delone?
+		ft_lstadd(&heads[1], tmp_node);
 	}
 	return (0);
 }
 
-int					ft_vasprintf(char **result_ptr, const char *format,
+static inline int		vasprintf_error(t_list *heads[3])
+{
+	ft_lstdel(&heads[0], ft_lstdelcontent);
+	ft_lstdel(&heads[1], ft_lstdelcontent);
+	ft_lstdel(&heads[2], ft_lstdelcontent);
+	return (-1);
+}
+
+int						ft_vasprintf(char **result_ptr, const char *format,
 																va_list args)
 {
-	const int	save_errno = errno;
-	t_list		*fmt_head;
-	t_list		*out_head;
-	t_list		*pos_head;
+	t_list	*heads[3] = {NULL, NULL, NULL};
+	int		res;
 
-	fmt_head = NULL;
-	out_head = NULL;
-	pos_head = NULL;
-	if (fmt_proc(&out_head, &fmt_head, &pos_head, format, args) < 0)
-		return (-1); //delete lists?
-	if (pos_head->next != NULL)
-		pos_proc(&pos_head, fmt_head);
-	build_out_node(out_head, fmt_head, pos_head, args);
-	return (1);
+	if (fmt_proc(heads, format, args) < 0)
+		return (vasprintf_error(heads));
+	ft_lstrev(&heads[0]);
+	ft_lstrev(&heads[1]);
+	ft_lstrev(&heads[2]);
+	if (heads[2] != NULL)
+		pos_proc(&heads[2], heads[1]);
+	if (build_out_node(heads[0], heads[1], heads[2], args) < 0)
+		return (vasprintf_error(heads));
+	if ((res = build_fstr(result_ptr, heads[0])) < 0)
+		return (-1);
+	return (res);
 }
