@@ -6,7 +6,7 @@
 /*   By: svet <svet@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/14 16:16:24 by svet              #+#    #+#             */
-/*   Updated: 2020/08/18 10:20:44 by svet             ###   ########.fr       */
+/*   Updated: 2020/08/19 17:18:55 by svet             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,17 +38,19 @@ int					build_fstr(char **fstr , t_list *out_node)
 	int		size;
 	t_list	*tmp;
 	char	*str;
+	int		indent;
 
 	if (len == -1)
 		return (-2);
 	if ((str = ft_strnew(len)) == NULL)
 		return (-1);
 	*fstr = str;
+	indent = 0;
 	while (out_node != NULL)
 	{
 		size = out_node->content_size;
-		ft_memcpy(str, out_node->content, size);
-		str += size;
+		indent += size;
+		ft_memcpy(str + len - indent, out_node->content, size);
 		tmp = out_node;
 		out_node = out_node->next;
 		ft_lstdelone(&tmp, ft_lstdelcontent);

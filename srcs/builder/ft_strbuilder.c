@@ -6,7 +6,7 @@
 /*   By: svet <svet@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/18 15:35:04 by svet              #+#    #+#             */
-/*   Updated: 2020/08/17 14:22:01 by svet             ###   ########.fr       */
+/*   Updated: 2020/08/18 17:08:02 by svet             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ int					build_str(t_list *o, void *s, t_fmt f)
 	s = s == NULL ? "(null)" : build_wstr(s, f.flags, f.type);
 	if (s == NULL)
 		return (-1);
-	f.param = f.prec_val >= 0 ? ft_strnlen(s, f.prec_val) : ft_strlen(s);
+	f.param = f.prec_val > 0 ? ft_strnlen(s, f.prec_val) : ft_strlen(s); //>= ?
 	f.width_val -= f.param;
 	if (!(f.flags & FL_LADJUST) && f.width_val > 0 &&
 				(o->content = build_padding(f.flags, f.width_val)) == NULL)

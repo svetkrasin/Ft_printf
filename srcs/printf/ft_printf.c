@@ -6,7 +6,7 @@
 /*   By: svet <svet@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/17 15:00:07 by svet              #+#    #+#             */
-/*   Updated: 2020/08/18 10:09:06 by svet             ###   ########.fr       */
+/*   Updated: 2020/08/18 15:58:45 by svet             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,9 @@ int	ft_printf(const char *restrict format, ...)
 	{
 		write(STDOUT_FILENO, fstr, done);
 		free(fstr);
+		return (done);
 	}
-	return (0);
+	return (-1);
 }
 
 // int						main(void)

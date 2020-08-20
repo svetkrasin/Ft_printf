@@ -6,12 +6,13 @@
 /*   By: svet <svet@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/30 18:21:08 by svet              #+#    #+#             */
-/*   Updated: 2020/08/17 14:28:43 by svet             ###   ########.fr       */
+/*   Updated: 2020/08/19 16:02:01 by svet             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_parser.h"
 #include <sys/_types/_null.h>
+#include <errno.h>
 
 const char	*fmt_flags(const char *format, t_fmt *fmt)
 {
@@ -33,7 +34,10 @@ const char	*fmt_flags(const char *format, t_fmt *fmt)
 int			fmt_width(long n, t_fmt *fmt)
 {
 	if (fmt_eoverflow(n) == 1)
-		return (-2);
+	{
+		errno = EOVERFLOW;
+		return (-1);
+	}
 	fmt->width_val = n;
 	fmt->width_pos = 0L;
 	return (0);

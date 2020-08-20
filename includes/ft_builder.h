@@ -6,7 +6,7 @@
 /*   By: svet <svet@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/14 19:13:16 by svet              #+#    #+#             */
-/*   Updated: 2020/08/17 14:10:27 by svet             ###   ########.fr       */
+/*   Updated: 2020/08/19 16:48:39 by svet             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,12 @@
 # define FT_BUILDER_H
 # include "libft.h"
 # include "ft_parser.h"
+# include "ft_getter.h"
 # include <stdarg.h>
 # include <_types/_uintmax_t.h>
 
-int		build_out_node(t_list *out_node, t_list *fmt_node, t_list *pos_head,
+int		build_out_node(t_list *out, t_argval argval, t_fmt *fmt);
+int		build_out_pos(t_list *out_node, t_list *fmt_node, t_list *pos_head,
 																	va_list ap);
 int		build_fstr(char **fstr , t_list *out_node);
 

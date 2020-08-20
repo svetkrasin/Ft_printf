@@ -6,7 +6,7 @@
 /*   By: svet <svet@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/14 19:22:06 by svet              #+#    #+#             */
-/*   Updated: 2020/08/17 13:50:46 by svet             ###   ########.fr       */
+/*   Updated: 2020/08/19 16:14:49 by svet             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ const char		*fmt_flags(const char *format, t_fmt *fmt);
 int				fmt_pos_or_width(const char **format_p, t_fmt *fmt, t_list **pos_p);
 int				fmt_aster(const char **format_p, t_fmt *fmt, t_list **pos_p, va_list ap);
 int				fmt_dot(const char **format_p, t_fmt *fmt, t_list **pos_p, va_list ap);
-int				fmt_lenght_and_type(const char **format_p, t_fmt *fmt);
+void			fmt_lenght_and_type(const char **format_p, t_fmt *fmt);
 int				fmt_width(long n, t_fmt *fmt);
 void			fmt_upd_flags(int flag, t_fmt *fmt);
 int				fmt_prec(long n, t_fmt *fmt);

@@ -6,7 +6,7 @@
 /*   By: svet <svet@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/22 19:19:03 by svet              #+#    #+#             */
-/*   Updated: 2020/08/18 14:40:06 by svet             ###   ########.fr       */
+/*   Updated: 2020/08/18 18:52:35 by svet             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,13 +95,13 @@ int					build_int(t_list *o, uintmax_t v, t_fmt f)
 		return (-1);
 	if (build_intprefix((char **)&o->content, f.flags, minus, base) == -1)
 		return (-1);
-	if ((f.flags & (FL_LADJUST & FL_ZEROPAD)) == FL_ZEROPAD &&
+	if ((f.flags & (FL_LADJUST | FL_ZEROPAD)) == FL_ZEROPAD &&
 			f.width_val > nd &&
 			(o->content = build_padding(f.flags, f.width_val - nc)) == NULL)
 		return (-1);
 	if (o->content == NULL && (o->content = ft_strnew(0)) == NULL)
 		return (-1);
-	if ((p = ft_ltoa_base(v, base, f.flags & FL_UPPER)) == NULL ||
+	if ((p = ft_ltoa_base(v, base, (f.flags & FL_UPPER) > 0 ? 1 : 0)) == NULL ||
 								ft_strappend((char **)&o->content, p) == NULL)
 		return (build_str_error(p));
 	o->content_size = nc + (f.width_val > nc ? f.width_val - nc : 0);

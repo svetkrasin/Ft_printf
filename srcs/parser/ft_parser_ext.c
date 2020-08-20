@@ -6,12 +6,13 @@
 /*   By: svet <svet@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/06 15:56:42 by svet              #+#    #+#             */
-/*   Updated: 2020/08/18 12:10:03 by svet             ###   ########.fr       */
+/*   Updated: 2020/08/19 16:17:15 by svet             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_parser.h"
 #include <limits.h>
+#include <errno.h>
 #include <sys/_types/_null.h>
 
 int	fmt_eoverflow(long n)
@@ -22,7 +23,10 @@ int	fmt_eoverflow(long n)
 int	fmt_prec(long value, t_fmt *fmt)
 {
 	if (fmt_eoverflow(value) == 1)
-		return (-2);
+	{
+		errno = EOVERFLOW;
+		return (-1);
+	}
 	fmt->prec_val = value;
 	fmt->prec_pos = 0L;
 	return (0);
@@ -41,7 +45,7 @@ int	fmt_dot(const char **format_p, t_fmt *fmt, t_list **pos_p, va_list ap)
 	unsigned long	n;
 	const char		*format = *format_p;
 
-	if ((fmt->prec_val = 0) || ft_isdigit(*++format) == 1)
+	if (fmt_set_prec(0, 0, fmt) || ft_isdigit(*++format) == 1)
 		return (fmt_prec(ft_strtoul(format, (char **)format_p, 10), fmt));
 	if (*format == '*')
 	{
@@ -64,7 +68,7 @@ int	fmt_dot(const char **format_p, t_fmt *fmt, t_list **pos_p, va_list ap)
 	return (0);
 }
 
-int	fmt_lenght_and_type(const char **format_p, t_fmt *fmt)
+void	fmt_lenght_and_type(const char **format_p, t_fmt *fmt)
 {
 	const char	*format = *format_p;
 	const char	*lengthes = "hjlLqtzZ";
@@ -74,20 +78,15 @@ int	fmt_lenght_and_type(const char **format_p, t_fmt *fmt)
 
 	length = 0;
 	while ((cur_length = ft_memchr(lengthes, *format, 8)) != NULL && ++format)
-	{
 		if (cur_length - lengthes == 0 && length & FL_SHORTINT)
 			length |= FL_CHARINT;
 		else if (cur_length - lengthes == 2 && length & FL_LONGINT)
 			length |= FL_QUADINT;
 		else
 			length |= FL_SHORTINT << (cur_length - lengthes);
-	}
 	fmt->flags |= length;
 	type = *format;
-	// if (ft_memchr("diuoxcspfegamn%XFEGADUOSCP", type, 26) == NULL)
-	// 	return (0);
 	fmt_revise_flags(type, fmt);
 	fmt->type = type;
 	*format_p = format + 1;
-	return (1);
 }
