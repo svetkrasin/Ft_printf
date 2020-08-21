@@ -6,45 +6,19 @@
 /*   By: svet <svet@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/18 15:35:04 by svet              #+#    #+#             */
-/*   Updated: 2020/08/18 17:08:02 by svet             ###   ########.fr       */
+/*   Updated: 2020/08/21 11:53:01 by svet             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_parser.h"
 #include <stdlib.h>
 
-char				*build_padding(int flags, int n)
-{
-	char *pad;
-
-	if ((pad = ft_strnew(n)) == NULL)
-		return (NULL);
-	return (ft_memset(pad, flags & FL_ZEROPAD ? '0' : ' ', n));
-}
-
-int					build_latepadding(char **str, int flags, int n, int len)
-{
-	char *padding_str;
-	char *append_res;
-
-	if (flags & FL_LADJUST && n > 0)
-	{
-		if ((padding_str = build_padding(flags, n)) == NULL)
-			return (-1);
-		append_res = ft_memappend((void **)str, padding_str, len, n);
-		free(padding_str);
-		if (append_res == NULL)
-			return (-1);
-	}
-	return (0);
-}
-
-static inline char	*build_wstr(wchar_t *str, int flags, char type)
+static inline char	*build_wstr(wchar_t *str, int flags)
 {
 	char	*wstr;
 	char	*tmp_p;
 
-	if (!(flags & FL_LONGINT) || type == 's')
+	if (!(flags & FL_LONGINT))
 		return ((char *)str);
 	if ((wstr = ft_memalloc(sizeof(char))) == NULL)
 		return (NULL);
@@ -58,40 +32,19 @@ static inline char	*build_wstr(wchar_t *str, int flags, char type)
 	return (wstr);
 }
 
-static inline int	build_str_error_with_flags(char *str, char type, int flags)
+static inline int	build_wstr_free(char *str, int flags)
 {
-	if (flags & FL_LONGINT || type == 'S' || type == 'c' || type == 'C')
+	if (flags & FL_LONGINT)
 		free(str);
 	return (-1);
-}
-int					build_str(t_list *o, void *s, t_fmt f)
-{
-	s = s == NULL ? "(null)" : build_wstr(s, f.flags, f.type);
-	if (s == NULL)
-		return (-1);
-	f.param = f.prec_val > 0 ? ft_strnlen(s, f.prec_val) : ft_strlen(s); //>= ?
-	f.width_val -= f.param;
-	if (!(f.flags & FL_LADJUST) && f.width_val > 0 &&
-				(o->content = build_padding(f.flags, f.width_val)) == NULL)
-		return (build_str_error_with_flags(s, f.type, f.flags));
-	if ((o->content == NULL && (o->content = ft_strnew(0)) == NULL) ||
-		ft_memappend(&o->content, s,
-		!(f.flags & FL_LADJUST) && f.width_val > 0 ? f.width_val : 0,
-		f.param) == NULL)
-		return (build_str_error_with_flags(s, f.type, f.flags));
-	if (f.flags & FL_LONGINT || f.type == 'S')
-		free(s);
-	if (build_latepadding((char **)&o->content, f.flags, f.width_val, f.param)
-																		== -1)
-		return (build_str_error_with_flags(s, f.type, f.flags));
-	return (o->content_size = f.param + (f.width_val > 0 ? f.width_val : 0));
 }
 
 int					build_chr(t_list *out_node, int c, t_fmt *fmt)
 {
-	char *c_as_str;
+	char	*c_as_str;
+	int		ret;
 
-	if (!(fmt->flags & FL_LONGINT) || fmt->type == 'c')
+	if (!(fmt->flags & FL_LONGINT))
 	{
 		if ((c_as_str = ft_strnew(1)) == NULL)
 			return (-1);
@@ -99,7 +52,40 @@ int					build_chr(t_list *out_node, int c, t_fmt *fmt)
 	}
 	else if ((c_as_str = ft_tombyte((wchar_t)c)) == NULL)
 		return (-1);
-	build_str(out_node, c_as_str, *fmt);
+	ret = build_str(out_node, c_as_str, *fmt);
 	free(c_as_str);
-	return (0);
+	return (ret);
+}
+
+// if (s == NULL)
+// {
+// 	if (f.prec_val == -1 || f.prec_val >= (len = (int)sizeof("(null)") - 1))
+// 		s = "(null)";
+// 	else
+// 	{
+// 		s = "";
+// 		len = 0;
+// 	}
+// }
+
+int					build_str(t_list *o, void *s, t_fmt f)
+{
+	if ((s = s == NULL ? "(null)" : build_wstr(s, f.flags)) == NULL)
+		return (NULL);
+	f.prec_val = f.prec_val != -1 ? ft_strnlen(s, f.prec_val) : ft_strlen(s);
+	f.width_val = ft_max(0, f.width_val - f.prec_val);
+	if ((o->content = ft_strnew(f.prec_val + f.width_val)) == NULL)
+			return (build_wstr_free(s, f.flags));
+	if (!(f.flags & FL_LADJUST))
+	{
+		ft_memset(o->content, f.flags & FL_ZEROPAD ? '0' : ' ', f.width_val);
+		ft_memcpy(o->content + f.width_val, s, f.prec_val);
+	}
+	else
+	{
+		ft_memcpy(o->content, s, f.prec_val);
+		ft_memset(o->content + f.prec_val, f.flags & FL_ZEROPAD ? '0' : ' ', f.width_val);
+	}
+	build_wstr_free(s, f.flags);
+	return ((o->content_size = f.prec_val + f.width_val));
 }
