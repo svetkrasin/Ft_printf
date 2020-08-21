@@ -6,7 +6,7 @@
 /*   By: svet <svet@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/22 15:25:53 by svet              #+#    #+#             */
-/*   Updated: 2020/08/18 10:04:20 by svet             ###   ########.fr       */
+/*   Updated: 2020/08/21 11:58:31 by svet             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,16 @@
 
 void	fmt_revise_flags(char type, t_fmt *fmt)
 {
-	if (type == 'D' || type == 'U' || type == 'O' || type == 'S' || type == 'C')
-		fmt->flags |= FL_LONGINT;
-	else if (ft_memchr("XFEGAP", type, 6) != NULL)
-		fmt->flags |= FL_UPPER;
-	else if (type == 'd' || type == 'i' || type == 'D')
+	if (type == 'd' || type == 'i')
 		fmt->flags |= FL_SIGNED;
+	else if (type == 'p')
+		fmt->flags = FL_ALT;
+	else if (ft_memchr("XFEGA", type, 6) != NULL)
+		fmt->flags |= FL_UPPER;
+	else if (type == 'U' || type == 'O' || type == 'S' || type == 'C')
+		fmt->flags |= FL_LONGINT;
+	else if (type == 'P')
+		fmt->flags = FL_ALT | FL_UPPER;
 	else if (type == 'D')
 		fmt->flags |= FL_LONGINT | FL_SIGNED;
 }
