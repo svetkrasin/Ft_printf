@@ -6,7 +6,7 @@
 /*   By: svet <svet@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/18 15:35:04 by svet              #+#    #+#             */
-/*   Updated: 2020/08/21 11:53:01 by svet             ###   ########.fr       */
+/*   Updated: 2020/08/24 12:56:28 by svet             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,29 @@ static inline int	build_wstr_free(char *str, int flags)
 	return (-1);
 }
 
+int					build_str(t_list *o, void *s, t_fmt f)
+{
+	if ((s = s == NULL ? "(null)" : build_wstr(s, f.flags)) == NULL)
+		return (-1);
+	f.prec_val = f.prec_val != -1 ? ft_strnlen(s, f.prec_val) : ft_strlen(s);
+	f.width_val = ft_max(0, f.width_val - f.prec_val);
+	if ((o->content = ft_strnew(f.prec_val + f.width_val)) == NULL)
+			return (build_wstr_free(s, f.flags));
+	if (!(f.flags & FL_LADJUST))
+	{
+		ft_memset(o->content, f.flags & FL_ZEROPAD ? '0' : ' ', f.width_val);
+		ft_memcpy((char *)((OP_T)o->content + f.width_val), s, f.prec_val);
+	}
+	else
+	{
+		ft_memcpy(o->content, s, f.prec_val);
+		ft_memset((char *)((OP_T)o->content + f.prec_val), f.flags & FL_ZEROPAD
+													? '0' : ' ', f.width_val);
+	}
+	build_wstr_free(s, f.flags);
+	return ((o->content_size = f.prec_val + f.width_val));
+}
+
 int					build_chr(t_list *out_node, int c, t_fmt *fmt)
 {
 	char	*c_as_str;
@@ -68,24 +91,3 @@ int					build_chr(t_list *out_node, int c, t_fmt *fmt)
 // 	}
 // }
 
-int					build_str(t_list *o, void *s, t_fmt f)
-{
-	if ((s = s == NULL ? "(null)" : build_wstr(s, f.flags)) == NULL)
-		return (NULL);
-	f.prec_val = f.prec_val != -1 ? ft_strnlen(s, f.prec_val) : ft_strlen(s);
-	f.width_val = ft_max(0, f.width_val - f.prec_val);
-	if ((o->content = ft_strnew(f.prec_val + f.width_val)) == NULL)
-			return (build_wstr_free(s, f.flags));
-	if (!(f.flags & FL_LADJUST))
-	{
-		ft_memset(o->content, f.flags & FL_ZEROPAD ? '0' : ' ', f.width_val);
-		ft_memcpy(o->content + f.width_val, s, f.prec_val);
-	}
-	else
-	{
-		ft_memcpy(o->content, s, f.prec_val);
-		ft_memset(o->content + f.prec_val, f.flags & FL_ZEROPAD ? '0' : ' ', f.width_val);
-	}
-	build_wstr_free(s, f.flags);
-	return ((o->content_size = f.prec_val + f.width_val));
-}

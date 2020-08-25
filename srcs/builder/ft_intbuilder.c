@@ -6,46 +6,12 @@
 /*   By: svet <svet@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/22 19:19:03 by svet              #+#    #+#             */
-/*   Updated: 2020/08/18 18:52:35 by svet             ###   ########.fr       */
+/*   Updated: 2020/08/24 17:58:03 by svet             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_builder.h"
 #include <stdlib.h>
-
-int					build_prependchar(char **str_p, char c)
-{
-	char *str;
-	char *c_as_str;
-
-	str = *str_p;
-	if ((str == NULL && (str = ft_strnew(0)) == NULL) ||
-								(c_as_str = ft_strnew(1)) == NULL)
-		return (-1);
-	*c_as_str = c;
-	if (ft_strnappend(&str, c_as_str, 1) == NULL)
-		return (-1);
-	free(c_as_str);
-	*str_p = str;
-	return (0);
-}
-
-int					build_intprefix(char **str, int flags, int minus, int base)
-{
-	if (minus == 1)
-		return (build_prependchar(str, '-'));
-	if (flags & FL_SIGN)
-		return (build_prependchar(str, '+'));
-	if (flags & FL_SPACE)
-		return (build_prependchar(str, ' '));
-	if (flags & FL_ALT && base == 16)
-	{
-		if (build_prependchar(str, '0') == -1)
-			return (-1);
-		return (build_prependchar(str, flags & FL_UPPER ? 'X' : 'x'));
-	}
-	return (0);
-}
 
 static inline int	build_base(char type)
 {
@@ -53,59 +19,96 @@ static inline int	build_base(char type)
 		return (10);
 	if (type == 'p' || type == 'x' || type == 'X' || type == 'P')
 		return (16);
-	else
+	else if (type == 'o' || type == 'O')
 		return (8);
+	else 
+		return (2);
 }
 
-static inline int	build_ndigits(uintmax_t val, int base, int flags, int prec)
+static inline char	*build_int_str(char *s, char *number, intmax_t v, t_fmt f)
 {
-	int ndigits;
-
-	ndigits = ft_unum_of_digs(val, base);
-	if (flags & FL_ALT && base == 8 && prec < ndigits + 1)
-		prec = ndigits + 1;
-	if (ndigits < prec)
-		ndigits = prec;
-	return (ndigits);
+	if (!(f.flags & FL_LADJUST) && !(f.flags & FL_ZEROPAD))
+	{
+		s = (char *)((OP_T)ft_memset(s, ' ', f.width_val) + f.width_val);
+		f.width_val = 0;
+	}
+	if (f.flags & FL_MINUS)
+		ft_memset(s++, '-', 1);
+	else if (f.flags & FL_SIGN)
+		ft_memset(s++, '+', 1);
+	else if (f.flags & FL_SPACE)
+		ft_memset(s++, ' ', 1);
+	if (f.type == 8 && f.flags & FL_ALT && v != 0 && f.prec_val <= (int)f.param)
+		ft_memset(s++, '0', 1);
+	else if (f.type == 16 && f.flags & FL_ALT && v != 0)
+		s = (char *)((OP_T)ft_memcpy(s, f.flags & FL_UPPER ? "0X" : "0x", 2) +
+																			2);
+	if ((f.flags & FL_LADJUST && f.flags & FL_ZEROPAD) ||
+														!(f.flags & FL_LADJUST))
+		f.prec_val += f.width_val;
+	if (f.prec_val > 0)
+		s = (char *)((OP_T)ft_memset(s, '0', f.prec_val) + f.prec_val);
+	s = (char *)((OP_T)ft_memcpy(s, number, f.param) + f.param);
+	if (f.flags & FL_LADJUST)
+		s = (char *)((OP_T)ft_memset(s, ' ', f.width_val) + f.width_val);
+	return (s);
 }
 
-static inline int	build_nchars(int ndigits, int minus, int flags, int base)
+static inline void	build_int_resolve_minus(intmax_t *v_p, int *flags_p)
 {
-	int nchars;
+	intmax_t	v;
+	int			flags;
 
-	nchars = ndigits;
-	if (minus == 1 || (flags & (FL_SIGN | FL_SPACE)))
-		++nchars;
-	if ((flags & FL_ALT) && base == 16)
-		nchars += 2;
-	return (nchars);
+	v = *v_p;
+	flags = *flags_p;
+	if (flags & FL_SIGNED)
+	{
+		if (flags & FL_CHARINT && (char)v < 0 && (flags |= FL_MINUS))
+			v = -(char)v;
+		else if (flags & FL_SHORTINT && (short)v < 0 && (flags |= FL_MINUS))
+			v = -(short)v;
+		else if (flags > FL_SHORTINT && v < 0 && (flags |= FL_MINUS))
+			v = -v;
+		else if ((int)v < 0)
+		{
+			flags |= FL_MINUS;
+			v = -(int)v;
+		}
+	}
+	*v_p = v;
+	*flags_p = flags;
 }
 
-int					build_int(t_list *o, uintmax_t v, t_fmt f)
+static inline char *build_int_sep(intmax_t v, int *flags, int base)
 {
-	const int	minus = f.flags & FL_SIGNED && (intmax_t)v < 0 ? 1 : 0;
+	build_int_resolve_minus(&v, flags);
+	return (ft_ultoa_base(v, base, *flags & FL_UPPER));
+}
+
+int					build_int(t_list *o, intmax_t v, t_fmt f)
+{
 	const int	base = build_base(f.type);
-	const int	nd = build_ndigits(v, base, f.flags, f.prec_val);
-	const int	nc = build_nchars(nd, minus, f.flags, base);
-	char		*p;
+	char		*s;
 
-	minus == 1 ? v = (uintmax_t)(-(intmax_t)v) : 0;
-	if (!(f.flags & (FL_LADJUST | FL_ZEROPAD)) && f.width_val > nc &&
-			(o->content = build_padding(f.flags, f.width_val - nc)) == NULL)
+	f.prec_val < 0 ? f.prec_val = 1 : (f.flags &= ~FL_ZEROPAD);
+	if (f.prec_val == 0 && v == 0)
+		s = base == 8 && f.flags & FL_ALT ? ft_itoa(0) : ft_strnew(0);
+	else
+		s = build_int_sep(v, &f.flags, base);
+	if (s == NULL)
 		return (-1);
-	if (build_intprefix((char **)&o->content, f.flags, minus, base) == -1)
-		return (-1);
-	if ((f.flags & (FL_LADJUST | FL_ZEROPAD)) == FL_ZEROPAD &&
-			f.width_val > nd &&
-			(o->content = build_padding(f.flags, f.width_val - nc)) == NULL)
-		return (-1);
-	if (o->content == NULL && (o->content = ft_strnew(0)) == NULL)
-		return (-1);
-	if ((p = ft_ltoa_base(v, base, (f.flags & FL_UPPER) > 0 ? 1 : 0)) == NULL ||
-								ft_strappend((char **)&o->content, p) == NULL)
-		return (build_str_error(p));
-	o->content_size = nc + (f.width_val > nc ? f.width_val - nc : 0);
-	free(p);
-	return (build_latepadding((char **)&o->content, f.flags, f.width_val - nc,
-																		nc));
+	f.param = ft_strlen(s);
+	f.prec_val = ft_max(0, f.prec_val - f.param);
+	f.type = base == 8 && f.flags & FL_ALT && v != 0 &&
+													f.prec_val <= (int)f.param;
+	f.type += (base == 16 && f.flags & FL_ALT && v != 0) ? 2 : 0;
+	f.type += f.flags & FL_MINUS || f.flags & FL_SIGN || f.flags & FL_SPACE;
+	f.width_val = ft_max(0, f.width_val - f.param - f.prec_val - f.type);
+	if ((o->content = ft_strnew(f.width_val + f.param + f.prec_val + f.type))
+																		== NULL)
+		return (build_str_error(s));
+	f.type = base;
+	o->content_size = (OP_T)build_int_str(o->content, s, v, f);
+	free(s);
+	return (o->content_size -= (OP_T)o->content);
 }

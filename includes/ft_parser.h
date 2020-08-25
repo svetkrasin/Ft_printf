@@ -6,7 +6,7 @@
 /*   By: svet <svet@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/14 19:22:06 by svet              #+#    #+#             */
-/*   Updated: 2020/08/19 16:14:49 by svet             ###   ########.fr       */
+/*   Updated: 2020/08/24 16:46:57 by svet             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,15 +20,16 @@
 # define FL_SPACE		0x0004
 # define FL_ZEROPAD		0x0008
 # define FL_LADJUST		0x0010
-# define FL_SHORTINT	0x0020
-# define FL_MAXINT		0x0040
-# define FL_LONGINT		0x0080
-# define FL_QUADINT		0x0100
-# define FL_PTRDIFF		0x0200
-# define FL_SIZEINT		0x0400
-# define FL_CHARINT		0x0800
-# define FL_UPPER		0x1000
-# define FL_SIGNED		0x2000
+# define FL_UPPER		0x0020
+# define FL_SIGNED		0x0040
+# define FL_MINUS		0x0080
+# define FL_CHARINT		0x0100
+# define FL_SHORTINT	0x0200
+# define FL_MAXINT		0x0400
+# define FL_LONGINT		0x0800
+# define FL_QUADINT		0x1000
+# define FL_PTRDIFF		0x2000
+# define FL_SIZEINT		0x4000
 
 typedef struct	s_fmt
 {

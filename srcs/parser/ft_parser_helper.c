@@ -6,7 +6,7 @@
 /*   By: svet <svet@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/22 15:25:53 by svet              #+#    #+#             */
-/*   Updated: 2020/08/21 11:58:31 by svet             ###   ########.fr       */
+/*   Updated: 2020/08/24 14:36:33 by svet             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,17 @@ void	fmt_revise_flags(char type, t_fmt *fmt)
 		fmt->flags |= FL_SIGNED;
 	else if (type == 'p')
 		fmt->flags = FL_ALT;
-	else if (ft_memchr("XFEGA", type, 6) != NULL)
+	else if (ft_memchr("uoxXbUO", type, 7) != NULL)
+	{
+		fmt->flags &= ~(FL_SIGN | FL_SPACE);
+		if (type == 'X')
+			fmt->flags |= FL_UPPER;
+		else if (type == 'U' || type == 'O')
+			fmt->flags |= FL_LONGINT;
+	}
+	else if (ft_memchr("FEGA", type, 4) != NULL)
 		fmt->flags |= FL_UPPER;
-	else if (type == 'U' || type == 'O' || type == 'S' || type == 'C')
+	else if (type == 'S' || type == 'C')
 		fmt->flags |= FL_LONGINT;
 	else if (type == 'P')
 		fmt->flags = FL_ALT | FL_UPPER;
