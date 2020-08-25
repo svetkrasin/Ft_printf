@@ -6,16 +6,13 @@
 /*   By: svet <svet@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/19 16:54:25 by skrasin           #+#    #+#             */
-/*   Updated: 2020/05/19 10:12:41 by svet             ###   ########.fr       */
+/*   Updated: 2020/08/21 09:29:11 by svet             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
+#include "ft_memory.h"
 
 void	ft_strdel(char **as)
 {
-	if (as == NULL)
-		return ;
-	free(*as);
-	*as = NULL;
+	ft_memdel((void **)as);
 }

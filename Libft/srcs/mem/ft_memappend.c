@@ -6,7 +6,7 @@
 /*   By: svet <svet@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/14 16:36:04 by svet              #+#    #+#             */
-/*   Updated: 2020/08/14 16:44:45 by svet             ###   ########.fr       */
+/*   Updated: 2020/08/20 15:06:45 by svet             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ char	*ft_memappend(void **dst, char const *src, size_t dlen, size_t slen)
 	char	*prev_str;
 	char	*new_str;
 
-	if (dst == NULL)
+	if (dst == NULL || *dst == NULL || src == NULL)
 		return (NULL);
 	prev_str = *dst;
 	if ((new_str = ft_memalloc(dlen + slen)) == NULL)

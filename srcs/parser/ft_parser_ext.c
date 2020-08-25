@@ -6,7 +6,7 @@
 /*   By: svet <svet@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/06 15:56:42 by svet              #+#    #+#             */
-/*   Updated: 2020/08/24 16:39:48 by svet             ###   ########.fr       */
+/*   Updated: 2020/08/25 12:40:24 by svet             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,17 +71,23 @@ int	fmt_dot(const char **format_p, t_fmt *fmt, t_list **pos_p, va_list ap)
 void	fmt_lenght_and_type(const char **format_p, t_fmt *fmt)
 {
 	const char	*format = *format_p;
-	const char	*lengthes = "hjlLqtzZ";
+	const char	*lengthes = "hjlLqtz";
 	const char	*cur_length;
 	char		type;
 	int			length;
 
 	length = 0;
-	while ((cur_length = ft_memchr(lengthes, *format, 8)) != NULL && ++format)
+	while ((cur_length = ft_memchr(lengthes, *format, 7)) != NULL && ++format)
 		if (cur_length - lengthes == 0 && length & FL_SHORTINT)
+		{
+			length &= ~FL_SHORTINT;
 			length |= FL_CHARINT;
+		}
 		else if (cur_length - lengthes == 2 && length & FL_LONGINT)
+		{
+			length &= ~FL_LONGINT;
 			length |= FL_QUADINT;
+		}
 		else
 			length |= FL_SHORTINT << (cur_length - lengthes);
 	fmt->flags |= length;

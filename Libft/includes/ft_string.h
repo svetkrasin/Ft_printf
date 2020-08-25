@@ -6,7 +6,7 @@
 /*   By: svet <svet@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/05 14:29:21 by svet              #+#    #+#             */
-/*   Updated: 2020/08/14 18:53:09 by svet             ###   ########.fr       */
+/*   Updated: 2020/08/21 12:16:02 by svet             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ void			ft_striter(char *s, void (*f)(char *));
 void			ft_striteri(char *s, void (*f)(size_t, char *));
 
 unsigned long	ft_strtoul(const char *nptr, char **endptr, int base);
+char			*ft_ultoa_base(unsigned long n, int base, int isupper);
 
 char			*ft_substr(char const *s, unsigned int start, size_t len);
 

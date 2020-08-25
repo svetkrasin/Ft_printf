@@ -6,7 +6,7 @@
 /*   By: svet <svet@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/18 15:35:04 by svet              #+#    #+#             */
-/*   Updated: 2020/08/24 12:56:28 by svet             ###   ########.fr       */
+/*   Updated: 2020/08/25 11:18:50 by svet             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ int					build_str(t_list *o, void *s, t_fmt f)
 	f.prec_val = f.prec_val != -1 ? ft_strnlen(s, f.prec_val) : ft_strlen(s);
 	f.width_val = ft_max(0, f.width_val - f.prec_val);
 	if ((o->content = ft_strnew(f.prec_val + f.width_val)) == NULL)
-			return (build_wstr_free(s, f.flags));
+		return (build_wstr_free(s, f.flags));
 	if (!(f.flags & FL_LADJUST))
 	{
 		ft_memset(o->content, f.flags & FL_ZEROPAD ? '0' : ' ', f.width_val);
@@ -62,22 +62,36 @@ int					build_str(t_list *o, void *s, t_fmt f)
 	return ((o->content_size = f.prec_val + f.width_val));
 }
 
-int					build_chr(t_list *out_node, int c, t_fmt *fmt)
+int					build_chr(t_list *o, int c, t_fmt f)
 {
-	char	*c_as_str;
-	int		ret;
+	char	*s;
 
-	if (!(fmt->flags & FL_LONGINT))
+	f.width_val = ft_max(0, --f.width_val);
+	if (!(f.flags & FL_LONGINT))
 	{
-		if ((c_as_str = ft_strnew(1)) == NULL)
+		if ((o->content = ft_strnew(f.width_val + 1)) == NULL)
 			return (-1);
-		*c_as_str = c;
+		if (!(f.flags & FL_LADJUST))
+		{
+			ft_memset(o->content, f.flags & FL_ZEROPAD ? '0' : ' ', f.width_val);
+			ft_memset((char *)((OP_T)o->content + f.width_val), c, 1);
+		}
+		else
+		{
+			ft_memset(o->content, c, 1);
+			ft_memset((char *)((OP_T)o->content + 1), f.flags & FL_ZEROPAD ? '0' : ' ', f.width_val);
+		}
+		++f.width_val;
 	}
-	else if ((c_as_str = ft_tombyte((wchar_t)c)) == NULL)
-		return (-1);
-	ret = build_str(out_node, c_as_str, *fmt);
-	free(c_as_str);
-	return (ret);
+	else
+	{
+		if ((s = ft_tombyte((wchar_t)c)) == NULL)
+			return (-1);
+		f.flags &= ~FL_LONGINT;
+		f.width_val = build_str(o, s, f);
+		free(s);
+	}
+	return ((o->content_size = f.width_val));
 }
 
 // if (s == NULL)

@@ -1,22 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strappend.c                                     :+:      :+:    :+:   */
+/*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: svet <svet@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/05/26 13:07:19 by svet              #+#    #+#             */
-/*   Updated: 2020/08/20 15:07:33 by svet             ###   ########.fr       */
+/*   Created: 2020/08/24 14:09:35 by svet              #+#    #+#             */
+/*   Updated: 2020/08/25 13:49:30 by svet             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_memory.h"
-#include "ft_string.h"
-#include <sys/_types/_null.h>
+#include "ft_printf.h"
+#include <stdio.h>
+#include <limits.h>
 
-char	*ft_strappend(char **dst, char const *src)
+int main(void)
 {
-	if (dst == NULL || *dst == NULL || src == NULL)
-		return (NULL);
-	return (ft_memappend((void **)dst, src, ft_strlen(*dst), ft_strlen(src)));
+	//printf("%d", 2147483648);
+	ft_printf("%x", -42);
+	//printf("%.0p, %.p\n", 0, 0);
+	//printf("%lld\n", 9223372036854775807);
+	//printf("null %.10c and text", 'a');
+	//printf("%Z\n");
+
+	//printf("%d\n", 4294967295);
+	return (0);
 }

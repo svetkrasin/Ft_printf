@@ -6,7 +6,7 @@
 /*   By: svet <svet@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/22 19:19:03 by svet              #+#    #+#             */
-/*   Updated: 2020/08/24 17:58:03 by svet             ###   ########.fr       */
+/*   Updated: 2020/08/25 13:39:41 by svet             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,13 @@ static inline int	build_base(char type)
 {
 	if (type == 'd' || type == 'i' || type == 'u' || type == 'U' || type == 'D')
 		return (10);
-	if (type == 'p' || type == 'x' || type == 'X' || type == 'P')
+	if (type == 'x' || type == 'X')
 		return (16);
-	else if (type == 'o' || type == 'O')
-		return (8);
-	else 
-		return (2);
+	if (type == 'p' || type == 'P')
+		return (17);
+	if (type == 'o' || type == 'O')
+		return (8); 
+	return (2);
 }
 
 static inline char	*build_int_str(char *s, char *number, intmax_t v, t_fmt f)
@@ -40,7 +41,7 @@ static inline char	*build_int_str(char *s, char *number, intmax_t v, t_fmt f)
 		ft_memset(s++, ' ', 1);
 	if (f.type == 8 && f.flags & FL_ALT && v != 0 && f.prec_val <= (int)f.param)
 		ft_memset(s++, '0', 1);
-	else if (f.type == 16 && f.flags & FL_ALT && v != 0)
+	else if ((f.type == 16 && f.flags & FL_ALT && v != 0) || f.type == 17)
 		s = (char *)((OP_T)ft_memcpy(s, f.flags & FL_UPPER ? "0X" : "0x", 2) +
 																			2);
 	if ((f.flags & FL_LADJUST && f.flags & FL_ZEROPAD) ||
@@ -61,19 +62,16 @@ static inline void	build_int_resolve_minus(intmax_t *v_p, int *flags_p)
 
 	v = *v_p;
 	flags = *flags_p;
-	if (flags & FL_SIGNED)
+	if (flags & FL_CHARINT && (v = (char)v) < 0 && flags & FL_SIGNED && (flags |= FL_MINUS))
+		v = -(char)v;
+	else if (flags & FL_SHORTINT && (v = (short)v) < 0 && flags & FL_SIGNED && (flags |= FL_MINUS))
+		v = -(short)v;
+	else if (flags > FL_SHORTINT && v < 0 && flags & FL_SIGNED && (flags |= FL_MINUS))
+		v = -v;
+	else if (flags < FL_SHORTINT && (v = (int)v) < 0 && flags & FL_SIGNED)
 	{
-		if (flags & FL_CHARINT && (char)v < 0 && (flags |= FL_MINUS))
-			v = -(char)v;
-		else if (flags & FL_SHORTINT && (short)v < 0 && (flags |= FL_MINUS))
-			v = -(short)v;
-		else if (flags > FL_SHORTINT && v < 0 && (flags |= FL_MINUS))
-			v = -v;
-		else if ((int)v < 0)
-		{
-			flags |= FL_MINUS;
-			v = -(int)v;
-		}
+		flags |= FL_MINUS;
+		v = -(int)v;
 	}
 	*v_p = v;
 	*flags_p = flags;
@@ -82,7 +80,7 @@ static inline void	build_int_resolve_minus(intmax_t *v_p, int *flags_p)
 static inline char *build_int_sep(intmax_t v, int *flags, int base)
 {
 	build_int_resolve_minus(&v, flags);
-	return (ft_ultoa_base(v, base, *flags & FL_UPPER));
+	return (ft_ultoa_base(v, base == 17 ? 16 : base, *flags & FL_UPPER));
 }
 
 int					build_int(t_list *o, intmax_t v, t_fmt f)
@@ -101,7 +99,7 @@ int					build_int(t_list *o, intmax_t v, t_fmt f)
 	f.prec_val = ft_max(0, f.prec_val - f.param);
 	f.type = base == 8 && f.flags & FL_ALT && v != 0 &&
 													f.prec_val <= (int)f.param;
-	f.type += (base == 16 && f.flags & FL_ALT && v != 0) ? 2 : 0;
+	f.type += (base == 16 && f.flags & FL_ALT && v != 0) || base == 17 ? 2 : 0;
 	f.type += f.flags & FL_MINUS || f.flags & FL_SIGN || f.flags & FL_SPACE;
 	f.width_val = ft_max(0, f.width_val - f.param - f.prec_val - f.type);
 	if ((o->content = ft_strnew(f.width_val + f.param + f.prec_val + f.type))

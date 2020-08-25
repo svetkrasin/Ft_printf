@@ -6,19 +6,15 @@
 /*   By: svet <svet@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/14 13:54:32 by svet              #+#    #+#             */
-/*   Updated: 2020/08/18 12:34:45 by svet             ###   ########.fr       */
+/*   Updated: 2020/08/18 17:10:12 by svet             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ctype.h"
-#include "ft_math.h"
 #include <limits.h>
+#include <sys/_types/_size_t.h>
 #include <sys/_types/_null.h>
-
-static inline unsigned long	ft_lim(const long sign)
-{
-	return (sign == -1L ? 1UL - (LONG_MIN + LONG_MAX) + LONG_MAX : LONG_MAX);
-}
+#define FT_LIM (sign == -1L ? 1UL - (LONG_MIN + LONG_MAX) + LONG_MAX : LONG_MAX)
 
 static inline int			ft_ishex(const char *s, int base)
 {
@@ -40,11 +36,24 @@ static inline int			ft_parsechr(char c)
 	return (c);
 }
 
+static inline int			ft_countdigs(const char *str, int base)
+{
+	size_t n;
+
+	n = 0;
+	while (ft_parsechr(*str) < base)
+	{
+		++str;
+		++n;
+	}
+	return (n);
+}
+
 static inline int			ft_parsestr(const char *s,
 							const long sign, const int base, int *const pany)
 {
-	register const unsigned long	cutoff = ft_lim(sign) / base;
-	register const int				cutlim = ft_lim(sign) % base;
+	register const unsigned long	cutoff = FT_LIM / base;
+	register const int				cutlim = FT_LIM  % base;
 	register char					c;
 	register int					any;
 	register unsigned long			acc;
@@ -89,10 +98,8 @@ long						ft_strtol(const char *nptr, char **endptr, int base)
 		base = *s++ == '0' ? 8 : 10;
 	if (base < 2 || base > 36)
 		return (0);
-	while (*s == '0')
-		s++;
 	acc = ft_parsestr(s, sign, base, &any);
 	if (endptr != NULL)
-		*endptr = (char *)(any ? s + ft_num_of_digs(acc, base) : nptr);
+		*endptr = (char *)(any ? s + ft_countdigs(s, base) : nptr);
 	return (acc);
 }
