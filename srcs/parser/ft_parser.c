@@ -6,7 +6,7 @@
 /*   By: svet <svet@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/30 18:21:08 by svet              #+#    #+#             */
-/*   Updated: 2020/08/19 16:02:01 by svet             ###   ########.fr       */
+/*   Updated: 2020/08/25 20:55:25 by svet             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 
 const char	*fmt_flags(const char *format, t_fmt *fmt)
 {
-	const char	*flags = "#+ 0-";
+	const char	*flags = "#+ 0-\'";
 	const char	*cur_flag;
 	int			c;
 
@@ -92,6 +92,8 @@ int			fmt_aster(const char **format_p, t_fmt *fmt, t_list **pos_p,
 			fmt->width_pos = n;
 			return (fmt_pos(n, 'i', fmt, pos_p));
 		}
+		else
+			--format;
 	}
 	ast = va_arg(ap, int);
 	if (ast < 0)
@@ -99,5 +101,6 @@ int			fmt_aster(const char **format_p, t_fmt *fmt, t_list **pos_p,
 		fmt_upd_flags(FL_LADJUST, fmt);
 		ast = -ast;
 	}
+	*format_p = format;
 	return (fmt_width(ast, fmt));
 }

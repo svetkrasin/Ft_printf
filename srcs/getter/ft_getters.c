@@ -6,7 +6,7 @@
 /*   By: svet <svet@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/11 12:06:13 by svet              #+#    #+#             */
-/*   Updated: 2020/08/25 12:43:59 by svet             ###   ########.fr       */
+/*   Updated: 2020/08/25 18:57:56 by svet             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ t_argval					get_argtype(char type, int length, va_list ap) //fix signed & unsig
 	t_argval argval;
 
 	argval.val_long_double = 0.0;
-	if (ft_memchr("diuoxUXODn", type, 10) != NULL)
+	if (ft_memchr("diuoxbUXODn", type, 11) != NULL)
 	{
 		if (length & FL_MAXINT)
 			argval.val_max = va_arg(ap, uintmax_t);

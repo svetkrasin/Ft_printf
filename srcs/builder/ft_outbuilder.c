@@ -6,7 +6,7 @@
 /*   By: svet <svet@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/06 15:05:14 by svet              #+#    #+#             */
-/*   Updated: 2020/08/25 13:33:50 by svet             ###   ########.fr       */
+/*   Updated: 2020/08/25 22:31:26 by svet             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,8 +54,10 @@ int			build_out_node(t_list *out, t_argval argval, t_fmt *fmt)
 	if (type == 'f' || type == 'F')
 		return (build_float(out, argval.val_long_double, fmt));
 	if (type == 'p' || type == 'P')
-		return (build_int(out, argval.val_int, *fmt));
-	return (build_chr(out, type, *fmt));
+		return (build_int(out, (uintmax_t)argval.val_ptr_t, *fmt));
+	if (type == '%')
+		return (build_chr(out, '%', *fmt));
+	return (build_rand_chr(out, type, fmt));
 }
 
 

@@ -6,7 +6,7 @@
 /*   By: svet <svet@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/21 12:07:38 by svet              #+#    #+#             */
-/*   Updated: 2020/08/21 12:16:10 by svet             ###   ########.fr       */
+/*   Updated: 2020/08/25 20:51:01 by svet             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,12 @@ char	*ft_ultoa_base(unsigned long n, int base, int isupper)
 	register char			*s;
 	register size_t			len;
 
-	len = ft_num_of_digs(n, base);
+	len = ft_unum_of_digs(n, base);
 	if (base == 0)
 		base = 10;
 	if (base < 2 || base > 36 || ((s = ft_strnew(len)) == NULL))
 		return (NULL);
+	s[0] = '0';
 	while (n != 0)
 	{
 		rem = n % base;

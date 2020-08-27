@@ -6,7 +6,7 @@
 /*   By: svet <svet@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/18 15:35:04 by svet              #+#    #+#             */
-/*   Updated: 2020/08/25 11:18:50 by svet             ###   ########.fr       */
+/*   Updated: 2020/08/25 22:25:57 by svet             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,25 @@ int					build_chr(t_list *o, int c, t_fmt f)
 		free(s);
 	}
 	return ((o->content_size = f.width_val));
+}
+
+int					build_rand_chr(t_list *out_node, int c, t_fmt *fmt)
+{
+	char	*c_as_str;
+	int		ret;
+
+	if (!(fmt->flags & FL_LONGINT))
+	{
+		if ((c_as_str = ft_strnew(1)) == NULL)
+			return (-1);
+		//fmt->width_val = ft_max(0, fmt->width_val - 1);
+		*c_as_str = c;
+	}
+	else if ((c_as_str = ft_tombyte((wchar_t)c)) == NULL)
+		return (-1);
+	ret = build_str(out_node, c_as_str, *fmt);
+	free(c_as_str);
+	return (ret);
 }
 
 // if (s == NULL)

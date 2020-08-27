@@ -6,7 +6,7 @@
 /*   By: svet <svet@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/19 12:38:37 by svet              #+#    #+#             */
-/*   Updated: 2020/08/24 17:38:39 by svet             ###   ########.fr       */
+/*   Updated: 2020/08/25 22:00:45 by svet             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static inline ptrdiff_t	fmt_parser(t_fmt *fmt, const char *format,
 	const char	*format_cpy = format;
 
 	while (1)
-		if (ft_memchr("#0 +-", *format, 6) != NULL)
+		if (ft_memchr("#0 +-\'", *format, 6) != NULL)
 			format = fmt_flags(format, fmt);
 		else if (ft_isdigit(*format) == 1)
 		{
@@ -40,11 +40,8 @@ static inline ptrdiff_t	fmt_parser(t_fmt *fmt, const char *format,
 			if (fmt_dot(&format, fmt, pos_p, ap) == -1)
 				return (-1);
 		}
-		else
-		{
-			fmt_lenght_and_type(&format, fmt);
+		else if (fmt_lenght_and_type(&format, fmt) == 1)
 			return (format - format_cpy);
-		}
 }
 
 static inline t_fmt		*fmt_init()

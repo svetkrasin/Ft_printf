@@ -6,7 +6,7 @@
 /*   By: svet <svet@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/06 15:56:42 by svet              #+#    #+#             */
-/*   Updated: 2020/08/25 12:40:24 by svet             ###   ########.fr       */
+/*   Updated: 2020/08/25 22:52:13 by svet             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,12 +68,11 @@ int	fmt_dot(const char **format_p, t_fmt *fmt, t_list **pos_p, va_list ap)
 	return (0);
 }
 
-void	fmt_lenght_and_type(const char **format_p, t_fmt *fmt)
+int	fmt_lenght_and_type(const char **format_p, t_fmt *fmt)
 {
 	const char	*format = *format_p;
-	const char	*lengthes = "hjlLqtz";
+	const char	*lengthes = "hjtzlLq";
 	const char	*cur_length;
-	char		type;
 	int			length;
 
 	length = 0;
@@ -84,15 +83,12 @@ void	fmt_lenght_and_type(const char **format_p, t_fmt *fmt)
 			length |= FL_CHARINT;
 		}
 		else if (cur_length - lengthes == 2 && length & FL_LONGINT)
-		{
-			length &= ~FL_LONGINT;
 			length |= FL_QUADINT;
-		}
 		else
 			length |= FL_SHORTINT << (cur_length - lengthes);
-	fmt->flags |= length;
-	type = *format;
-	fmt_revise_flags(type, fmt);
-	fmt->type = type;
-	*format_p = format + 1;
+	if (length != 0 && (*format_p = format))
+		return (fmt->flags |= length);
+	*format_p = *format == '\0' ? format : format + 1;
+	fmt_revise_flags(*format, fmt);
+	return (1);
 }
