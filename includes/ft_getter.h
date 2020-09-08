@@ -6,12 +6,12 @@
 /*   By: svet <svet@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/14 19:18:10 by svet              #+#    #+#             */
-/*   Updated: 2020/08/25 12:43:44 by svet             ###   ########.fr       */
+/*   Updated: 2020/09/07 21:03:36 by svet             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FT_GETTERS_H
-# define FT_GETTERS_H
+#ifndef FT_GETTER_H
+# define FT_GETTER_H
 # include "libft.h"
 # include "ft_parser.h"
 # include <stdarg.h>
@@ -33,7 +33,6 @@ typedef union	u_argval
 	ptrdiff_t			val_ptrdiff_t;
 	void				*val_ptr_t;
 }				t_argval;
-
 
 t_argval		get_pos_value(size_t n, t_list *pos_node, va_list ap);
 t_argval		get_argtype(char type, int length, va_list ap);

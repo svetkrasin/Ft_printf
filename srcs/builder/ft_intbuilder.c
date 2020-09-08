@@ -6,7 +6,7 @@
 /*   By: svet <svet@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/22 19:19:03 by svet              #+#    #+#             */
-/*   Updated: 2020/09/03 13:06:19 by svet             ###   ########.fr       */
+/*   Updated: 2020/09/07 20:49:08 by svet             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static inline int	build_base(char type)
 	if (type == 'p' || type == 'P')
 		return (17);
 	if (type == 'o' || type == 'O')
-		return (8); 
+		return (8);
 	return (2);
 }
 
@@ -61,32 +61,23 @@ static inline void	build_int_resolve_minus(uintmax_t *v_p, int *flags_p)
 	int			flags;
 
 	v = *v_p;
-	flags = *flags_p;
-	if (flags >= FL_MAXINT)
-	{
-		if ((intmax_t)v < 0 && flags & FL_SIGNED && (flags |= FL_MINUS))
-			v = (uintmax_t)(intmax_t)-v;
-	}
-	else if (flags & FL_SHORTINT)
-	{
-		if ((short)(v = (unsigned short)(short)v) < 0 && flags & FL_SIGNED && (flags |= FL_MINUS))
-			v = (unsigned short)-(short)v;
-	}
-	else if (flags & FL_CHARINT)
-	{
-		if ((char)(v = (unsigned char)(char)v) < 0 && flags & FL_SIGNED && (flags |= FL_MINUS))
-			v = (unsigned char)-(char)v;
-	}
-	else if (flags < FL_CHARINT)
-	{
-		if ((int)(v = (unsigned int)(int)v) < 0 && flags & FL_SIGNED && (flags |= FL_MINUS))
-			v = (unsigned int)-(int)v;
-	}
+	if ((flags = *flags_p) >= FL_MAXINT && (intmax_t)v < 0 && flags & FL_SIGNED
+														&& (flags |= FL_MINUS))
+		v = (uintmax_t)(intmax_t)-v;
+	else if (flags & FL_SHORTINT && (short)(v = (unsigned short)(short)v) < 0 &&
+									flags & FL_SIGNED && (flags |= FL_MINUS))
+		v = (unsigned short)-(short)v;
+	else if (flags & FL_CHARINT && (char)(v = (unsigned char)(char)v) < 0 &&
+									flags & FL_SIGNED && (flags |= FL_MINUS))
+		v = (unsigned char)-(char)v;
+	else if (flags < FL_CHARINT && (int)(v = (unsigned int)(int)v) < 0 && flags
+											& FL_SIGNED && (flags |= FL_MINUS))
+		v = (unsigned int)-(int)v;
 	*v_p = v;
 	*flags_p = flags;
 }
 
-static inline char *build_int_sep(uintmax_t v, int *flags, int base)
+static inline char	*build_int_sep(uintmax_t v, int *flags, int base)
 {
 	build_int_resolve_minus(&v, flags);
 	return (ft_ultoa_base(v, base == 17 ? 16 : base, *flags & FL_UPPER));

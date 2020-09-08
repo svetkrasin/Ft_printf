@@ -6,7 +6,7 @@
 /*   By: svet <svet@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/06 15:05:14 by svet              #+#    #+#             */
-/*   Updated: 2020/09/07 19:21:38 by svet             ###   ########.fr       */
+/*   Updated: 2020/09/07 20:40:58 by svet             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	build_str_error(char *str)
 	return (-1);
 }
 
-int		build_fmt(t_list *out_node, t_fmt *fmt, t_list *pos_head, va_list ap)
+int	build_fmt(t_list *out_node, t_fmt *fmt, t_list *pos_head, va_list ap)
 {
 	size_t		n;
 	int			ret;
@@ -41,7 +41,7 @@ int		build_fmt(t_list *out_node, t_fmt *fmt, t_list *pos_head, va_list ap)
 	return (build_out_node(out_node, argval, fmt));
 }
 
-int			build_out_node(t_list *out, t_argval argval, t_fmt *fmt)
+int	build_out_node(t_list *out, t_argval argval, t_fmt *fmt)
 {
 	const char		type = fmt->type;
 
@@ -60,8 +60,7 @@ int			build_out_node(t_list *out, t_argval argval, t_fmt *fmt)
 	return (build_rand_chr(out, type, fmt));
 }
 
-
-int		build_out_pos(t_list *out_node, t_list *fmt_node, t_list *pos_head,
+int	build_out_pos(t_list *out_node, t_list *fmt_node, t_list *pos_head,
 																	va_list ap)
 {
 	t_fmt	*tmp_fmt;

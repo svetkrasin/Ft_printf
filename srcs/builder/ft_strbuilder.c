@@ -6,7 +6,7 @@
 /*   By: svet <svet@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/18 15:35:04 by svet              #+#    #+#             */
-/*   Updated: 2020/09/03 13:06:17 by svet             ###   ########.fr       */
+/*   Updated: 2020/09/07 21:00:53 by svet             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,15 +72,11 @@ int					build_chr(t_list *o, int c, t_fmt f)
 		if ((o->content = ft_strnew(f.width_val + 1)) == NULL)
 			return (-1);
 		if (!(f.flags & FL_LADJUST))
-		{
-			ft_memset(o->content, f.flags & FL_ZEROPAD ? '0' : ' ', f.width_val);
-			ft_memset((char *)((long)o->content + f.width_val), c, 1);
-		}
+			ft_memset((char *)((long)ft_memset(o->content, f.flags & FL_ZEROPAD
+								? '0' : ' ', f.width_val) + f.width_val), c, 1);
 		else
-		{
-			ft_memset(o->content, c, 1);
-			ft_memset((char *)((long)o->content + 1), f.flags & FL_ZEROPAD ? '0' : ' ', f.width_val);
-		}
+			ft_memset((char *)((long)ft_memset(o->content, c, 1) + 1), f.flags
+										& FL_ZEROPAD ? '0' : ' ', f.width_val);
 		++f.width_val;
 	}
 	else
@@ -103,7 +99,6 @@ int					build_rand_chr(t_list *out_node, int c, t_fmt *fmt)
 	{
 		if ((c_as_str = ft_strnew(1)) == NULL)
 			return (-1);
-		//fmt->width_val = ft_max(0, fmt->width_val - 1);
 		*c_as_str = c;
 	}
 	else if ((c_as_str = ft_tombyte((wchar_t)c)) == NULL)
@@ -112,15 +107,3 @@ int					build_rand_chr(t_list *out_node, int c, t_fmt *fmt)
 	free(c_as_str);
 	return (ret);
 }
-
-// if (s == NULL)
-// {
-// 	if (f.prec_val == -1 || f.prec_val >= (len = (int)sizeof("(null)") - 1))
-// 		s = "(null)";
-// 	else
-// 	{
-// 		s = "";
-// 		len = 0;
-// 	}
-// }
-

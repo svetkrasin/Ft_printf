@@ -6,7 +6,7 @@
 /*   By: svet <svet@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/14 19:22:06 by svet              #+#    #+#             */
-/*   Updated: 2020/08/25 22:36:49 by svet             ###   ########.fr       */
+/*   Updated: 2020/09/07 21:02:57 by svet             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,8 @@
 
 typedef struct	s_fmt
 {
-	char	type; //bit fields?
-	int		flags; //bit fields?
+	char	type;
+	int		flags;
 	int		width_val;
 	int		prec_val;
 	size_t	param;
@@ -53,14 +53,17 @@ typedef struct	s_ptrs
 typedef struct	s_pos
 {
 	size_t	n;
-	char	type; //bit fields?
-	int		flags; //bit fields?
+	char	type;
+	int		flags;
 }				t_pos;
 
 const char		*fmt_flags(const char *format, t_fmt *fmt);
-int				fmt_pos_or_width(const char **format_p, t_fmt *fmt, t_list **pos_p);
-int				fmt_aster(const char **format_p, t_fmt *fmt, t_list **pos_p, va_list ap);
-int				fmt_dot(const char **format_p, t_fmt *fmt, t_list **pos_p, va_list ap);
+int				fmt_pos_or_width(const char **format_p, t_fmt *fmt,
+																t_list **pos_p);
+int				fmt_aster(const char **format_p, t_fmt *fmt, t_list **pos_p,
+																	va_list ap);
+int				fmt_dot(const char **format_p, t_fmt *fmt, t_list **pos_p,
+																	va_list ap);
 int				fmt_lenght_and_type(const char **format_p, t_fmt *fmt);
 int				fmt_width(long n, t_fmt *fmt);
 void			fmt_upd_flags(int flag, t_fmt *fmt);

@@ -6,7 +6,7 @@
 /*   By: svet <svet@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/14 16:16:24 by svet              #+#    #+#             */
-/*   Updated: 2020/08/25 18:42:33 by svet             ###   ########.fr       */
+/*   Updated: 2020/09/07 20:39:51 by svet             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,13 +32,13 @@ static inline int	count_len(t_list *out)
 	return (len);
 }
 
-int					build_fstr(char **fstr , t_list *out_node)
+int					build_fstr(char **fstr, t_list *out_node)
 {
-	int len = count_len(out_node);
-	int		size;
-	t_list	*tmp;
-	char	*str;
-	int		indent;
+	const int	len = count_len(out_node);
+	int			size;
+	t_list		*tmp;
+	char		*str;
+	int			indent;
 
 	if (len == -1)
 		return (-2);

@@ -6,7 +6,7 @@
 /*   By: svet <svet@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/14 19:13:16 by svet              #+#    #+#             */
-/*   Updated: 2020/09/07 19:20:09 by svet             ###   ########.fr       */
+/*   Updated: 2020/09/07 21:03:15 by svet             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 int		build_out_node(t_list *out, t_argval argval, t_fmt *fmt);
 int		build_out_pos(t_list *out_node, t_list *fmt_node, t_list *pos_head,
 																	va_list ap);
-int		build_fstr(char **fstr , t_list *out_node);
+int		build_fstr(char **fstr, t_list *out_node);
 
 int		build_str(t_list *o, void *s, t_fmt f);
 int		build_chr(t_list *out_node, int c, t_fmt fmt);

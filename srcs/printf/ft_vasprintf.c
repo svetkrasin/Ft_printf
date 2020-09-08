@@ -6,7 +6,7 @@
 /*   By: svet <svet@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/30 15:05:57 by svet              #+#    #+#             */
-/*   Updated: 2020/08/25 12:00:20 by svet             ###   ########.fr       */
+/*   Updated: 2020/09/07 20:50:18 by svet             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,12 @@ static inline int	vasprintf_error(t_list *heads[3])
 int					ft_vasprintf(char **result_ptr, const char *format,
 																va_list args)
 {
-	t_list	*heads[3] = {NULL, NULL, NULL};
+	t_list	*heads[3];
 	int		res;
 
+	heads[0] = NULL;
+	heads[1] = NULL;
+	heads[2] = NULL;
 	if (fmt_proc(heads, format, args) == -1)
 		return (vasprintf_error(heads));
 	if (heads[2] != NULL)
