@@ -6,7 +6,7 @@
 /*   By: svet <svet@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/22 19:19:03 by svet              #+#    #+#             */
-/*   Updated: 2020/09/07 20:49:08 by svet             ###   ########.fr       */
+/*   Updated: 2020/09/07 21:24:12 by svet             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,18 +61,25 @@ static inline void	build_int_resolve_minus(uintmax_t *v_p, int *flags_p)
 	int			flags;
 
 	v = *v_p;
-	if ((flags = *flags_p) >= FL_MAXINT && (intmax_t)v < 0 && flags & FL_SIGNED
+	if ((flags = *flags_p) >= FL_MAXINT)
+		(intmax_t)v < 0 && flags & FL_SIGNED && (flags |= FL_MINUS) ?
+												v = (uintmax_t)(intmax_t)-v : 0;
+	else if (flags & FL_SHORTINT)
+	{
+		if ((short)(v = (unsigned short)(short)v) < 0 && flags & FL_SIGNED
 														&& (flags |= FL_MINUS))
-		v = (uintmax_t)(intmax_t)-v;
-	else if (flags & FL_SHORTINT && (short)(v = (unsigned short)(short)v) < 0 &&
-									flags & FL_SIGNED && (flags |= FL_MINUS))
-		v = (unsigned short)-(short)v;
-	else if (flags & FL_CHARINT && (char)(v = (unsigned char)(char)v) < 0 &&
-									flags & FL_SIGNED && (flags |= FL_MINUS))
-		v = (unsigned char)-(char)v;
-	else if (flags < FL_CHARINT && (int)(v = (unsigned int)(int)v) < 0 && flags
-											& FL_SIGNED && (flags |= FL_MINUS))
-		v = (unsigned int)-(int)v;
+			v = (unsigned short)-(short)v;
+	}
+	else if (flags & FL_CHARINT)
+	{
+		if ((char)(v = (unsigned char)(char)v) < 0 && flags & FL_SIGNED &&
+															(flags |= FL_MINUS))
+			v = (unsigned char)-(char)v;
+	}
+	else if (flags < FL_CHARINT)
+		if ((int)(v = (unsigned int)(int)v) < 0 && flags & FL_SIGNED &&
+															(flags |= FL_MINUS))
+			v = (unsigned int)-(int)v;
 	*v_p = v;
 	*flags_p = flags;
 }
