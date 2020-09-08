@@ -6,7 +6,7 @@
 /*   By: svet <svet@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/07 13:24:36 by svet              #+#    #+#             */
-/*   Updated: 2020/05/16 09:00:38 by svet             ###   ########.fr       */
+/*   Updated: 2020/09/01 18:56:03 by svet             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,8 @@
 
 size_t	ft_optmemalign(const void *const s)
 {
-	const size_t xl = OPT_SIZE - (unsigned OP_T)s & OPT_MASK;
+	const size_t long_size = sizeof(long);
+	const size_t xl = long_size - (unsigned long)(long)s & (long_size - 1);
 
-	if (xl == 8)
-		return (0);
-	else
-		return (xl);
+	return (xl == long_size ? 0 : xl);
 }

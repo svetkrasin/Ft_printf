@@ -6,10 +6,11 @@
 /*   By: svet <svet@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/14 18:54:04 by svet              #+#    #+#             */
-/*   Updated: 2020/08/14 19:06:06 by svet             ###   ########.fr       */
+/*   Updated: 2020/09/01 20:11:43 by svet             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "ft_list.h"
 #include <stdlib.h>
 
 void	ft_lstdelcontent(void *p, size_t n)

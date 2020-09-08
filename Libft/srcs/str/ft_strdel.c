@@ -6,11 +6,12 @@
 /*   By: svet <svet@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/19 16:54:25 by skrasin           #+#    #+#             */
-/*   Updated: 2020/08/21 09:29:11 by svet             ###   ########.fr       */
+/*   Updated: 2020/09/01 19:22:03 by svet             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_memory.h"
+#include "ft_string.h"
 
 void	ft_strdel(char **as)
 {

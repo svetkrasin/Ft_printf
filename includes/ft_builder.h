@@ -6,7 +6,7 @@
 /*   By: svet <svet@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/14 19:13:16 by svet              #+#    #+#             */
-/*   Updated: 2020/08/25 22:25:49 by svet             ###   ########.fr       */
+/*   Updated: 2020/09/07 19:20:09 by svet             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int		build_str(t_list *o, void *s, t_fmt f);
 int		build_chr(t_list *out_node, int c, t_fmt fmt);
 int		build_rand_chr(t_list *out_node, int c, t_fmt *fmt);
 int		build_int(t_list *o, uintmax_t val, t_fmt f);
-int		build_float(t_list *o, long double val, t_fmt *f);
+int		build_float(t_list *o, long double val, t_fmt f);
 
 char	*build_padding(int flags, int n);
 int		build_latepadding(char **str, int flags, int n, int len);

@@ -6,7 +6,7 @@
 #    By: svet <svet@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/10/04 15:46:13 by skrasin           #+#    #+#              #
-#    Updated: 2020/08/25 18:21:27 by svet             ###   ########.fr        #
+#    Updated: 2020/09/01 20:28:44 by svet             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -56,7 +56,7 @@ all: $(NAME)
 $(NAME) : $(NAME)($(objects))
 
 #	Bonus
-bonus : $(NAME)($(objects_bonus))
+bonus : $(NAME) $(NAME)($(objects_bonus))
 
 #	Removing objects
 clean:

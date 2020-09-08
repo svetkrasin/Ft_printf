@@ -6,14 +6,14 @@
 /*   By: svet <svet@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/18 11:08:12 by skrasin           #+#    #+#             */
-/*   Updated: 2020/06/08 17:57:51 by svet             ###   ########.fr       */
+/*   Updated: 2020/09/01 20:29:39 by svet             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_memory.h"
 #include <sys/_types/_null.h>
 
-static inline void	*ft_bytememchr(const void *str, int c, size_t n)
+static inline const void	*ft_bytememchr(const void *str, int c, size_t n)
 {
 	register const unsigned char	*s;
 
@@ -23,40 +23,46 @@ static inline void	*ft_bytememchr(const void *str, int c, size_t n)
 		++s;
 		--n;
 	}
-	return (n ? (void *)s : NULL);
+	return (n ? s : NULL);
 }
 
-static inline void	*ft_optmemchr(const void *str, int c, size_t *l)
+static inline const void	*ft_optmemchr(
+	const void *str,
+	int c,
+	size_t *l,
+	size_t long_size
+)
 {
 	register size_t					xl;
-	register const unsigned OP_T	rep_c = ft_repcset(c);
-	register unsigned OP_T			w;
-	register const unsigned OP_T	*s;
+	register const unsigned long	rep_c = ft_repcset(c);
+	register unsigned long			w;
+	register const unsigned long	*s;
 
 	xl = ft_optmemalign(str);
 	if (xl != 0 && (s = ft_bytememchr(str, c, xl)) != NULL)
-		return ((void *)s);
-	s = (const unsigned OP_T *)((const unsigned char *)str + xl);
+		return (s);
+	s = (const unsigned long *)((const unsigned char *)str + xl);
 	*l -= xl;
-	xl = *l / OPT_SIZE;
+	xl = *l / long_size;
 	while (xl != 0)
 	{
 		w = *s ^ rep_c;
-		if ((((w - REP_01L) & ~w) & (REP_01L << OPT_MASK)) != 0)
+		if ((((w - REP_01L) & ~w) & (REP_01L << (long_size - 1))) != 0)
 			break ;
 		++s;
 		--xl;
 	}
-	*l = xl ? OPT_SIZE : *l & OPT_MASK;
-	return ((void *)s);
+	*l = xl ? long_size : *l & (long_size - 1);
+	return (s);
 }
 
-void		*ft_memchr(const void *str, int c, size_t n)
+void						*ft_memchr(const void *str, int c, size_t n)
 {
+	const size_t	long_size = sizeof(long);
 	size_t *const	nbytes = &n;
 
 	c = (unsigned char)c;
-	if (n > OPT_SIZE)
-		str = ft_optmemchr(str, c, nbytes);
-	return (n != 0 ? ft_bytememchr(str, c, n) : NULL);
+	if (n > long_size)
+		str = ft_optmemchr(str, c, nbytes, long_size);
+	return (n != 0 ? (void *)ft_bytememchr(str, c, n) : NULL);
 }

@@ -6,7 +6,7 @@
 /*   By: svet <svet@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/18 15:35:04 by svet              #+#    #+#             */
-/*   Updated: 2020/08/25 22:25:57 by svet             ###   ########.fr       */
+/*   Updated: 2020/09/03 13:06:17 by svet             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,12 +50,12 @@ int					build_str(t_list *o, void *s, t_fmt f)
 	if (!(f.flags & FL_LADJUST))
 	{
 		ft_memset(o->content, f.flags & FL_ZEROPAD ? '0' : ' ', f.width_val);
-		ft_memcpy((char *)((OP_T)o->content + f.width_val), s, f.prec_val);
+		ft_memcpy((char *)((long)o->content + f.width_val), s, f.prec_val);
 	}
 	else
 	{
 		ft_memcpy(o->content, s, f.prec_val);
-		ft_memset((char *)((OP_T)o->content + f.prec_val), f.flags & FL_ZEROPAD
+		ft_memset((char *)((long)o->content + f.prec_val), f.flags & FL_ZEROPAD
 													? '0' : ' ', f.width_val);
 	}
 	build_wstr_free(s, f.flags);
@@ -74,12 +74,12 @@ int					build_chr(t_list *o, int c, t_fmt f)
 		if (!(f.flags & FL_LADJUST))
 		{
 			ft_memset(o->content, f.flags & FL_ZEROPAD ? '0' : ' ', f.width_val);
-			ft_memset((char *)((OP_T)o->content + f.width_val), c, 1);
+			ft_memset((char *)((long)o->content + f.width_val), c, 1);
 		}
 		else
 		{
 			ft_memset(o->content, c, 1);
-			ft_memset((char *)((OP_T)o->content + 1), f.flags & FL_ZEROPAD ? '0' : ' ', f.width_val);
+			ft_memset((char *)((long)o->content + 1), f.flags & FL_ZEROPAD ? '0' : ' ', f.width_val);
 		}
 		++f.width_val;
 	}

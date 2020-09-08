@@ -6,10 +6,11 @@
 /*   By: svet <svet@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/19 16:02:16 by skrasin           #+#    #+#             */
-/*   Updated: 2020/05/19 10:22:25 by svet             ###   ########.fr       */
+/*   Updated: 2020/09/01 18:45:06 by svet             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "ft_memory.h"
 #include <stdlib.h>
 
 void	ft_memdel(void **ap)

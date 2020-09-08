@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: svet <svet@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: skrasin <skrasin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/16 11:33:08 by skrasin           #+#    #+#             */
-/*   Updated: 2020/07/10 22:07:43 by svet             ###   ########.fr       */
+/*   Updated: 2020/08/31 14:37:07 by skrasin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,5 +19,6 @@
 # include "ft_io.h"
 # include "ft_math.h"
 # include "ft_list.h"
+# include "ft_list_bonus.h"
 
 #endif

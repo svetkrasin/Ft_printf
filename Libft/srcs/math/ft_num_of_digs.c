@@ -6,11 +6,11 @@
 /*   By: svet <svet@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/18 15:48:53 by svet              #+#    #+#             */
-/*   Updated: 2020/07/21 21:29:51 by svet             ###   ########.fr       */
+/*   Updated: 2020/09/01 20:09:07 by svet             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <_types/_intmax_t.h>
+#include "ft_math.h"
 
 unsigned int	ft_num_of_digs(intmax_t n, int base)
 {

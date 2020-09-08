@@ -6,7 +6,7 @@
 /*   By: svet <svet@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/21 12:07:38 by svet              #+#    #+#             */
-/*   Updated: 2020/08/25 20:51:01 by svet             ###   ########.fr       */
+/*   Updated: 2020/09/01 20:18:12 by svet             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,10 @@ char	*ft_ultoa_base(unsigned long n, int base, int isupper)
 	s[0] = '0';
 	while (n != 0)
 	{
-		rem = n % base;
-		s[--len] = rem > 9 ? rem - 10 + a : rem + '0';
-		n /= base;
+		rem = n % (unsigned long)base;
+		s[--len] = (char)(rem > 9 ? rem - 10 + (const unsigned long)a :
+																	rem + '0');
+		n /= (unsigned long)base;
 	}
 	return (s);
 }

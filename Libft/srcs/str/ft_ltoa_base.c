@@ -6,7 +6,7 @@
 /*   By: svet <svet@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/18 11:05:57 by svet              #+#    #+#             */
-/*   Updated: 2020/08/21 09:29:15 by svet             ###   ########.fr       */
+/*   Updated: 2020/09/01 19:18:37 by svet             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ char	*ft_ltoa_base(long n, int base, int isupper)
 	register char		*s;
 	register size_t		len;
 
-	len = ft_num_of_digs(n, base) + sign;
+	len = (size_t)((long)ft_num_of_digs(n, base) + sign);
 	if (base == 0)
 		base = 10;
 	if (base < 2 || base > 36 || ((s = ft_strnew(len)) == NULL))
@@ -31,7 +31,7 @@ char	*ft_ltoa_base(long n, int base, int isupper)
 	while (n != 0)
 	{
 		rem = (n % base ^ -sign) + sign;
-		s[--len] = rem > 9 ? rem - 10 + a : rem + '0';
+		s[--len] = (char)(rem > 9 ? rem - 10 + a : rem + '0');
 		n /= base;
 	}
 	return (s);

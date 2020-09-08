@@ -6,21 +6,22 @@
 /*   By: svet <svet@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/18 13:43:37 by svet              #+#    #+#             */
-/*   Updated: 2020/05/14 14:19:32 by svet             ###   ########.fr       */
+/*   Updated: 2020/09/01 18:56:43 by svet             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_memory.h"
 
-unsigned OP_T	ft_repcset(int c)
+unsigned long	ft_repcset(int c)
 {
-	register unsigned OP_T cc;
+	register unsigned long cc;
 
 	if ((cc = (unsigned char)c) != 0)
 	{
 		cc |= cc << 8;
 		cc |= cc << 16;
-		cc |= cc << 32;
+		if (sizeof(long) > 4)
+			cc |= cc << 32;
 	}
 	else
 		cc = 0x00;

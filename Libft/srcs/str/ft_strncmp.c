@@ -6,11 +6,11 @@
 /*   By: svet <svet@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/17 16:53:45 by skrasin           #+#    #+#             */
-/*   Updated: 2020/05/19 12:06:33 by svet             ###   ########.fr       */
+/*   Updated: 2020/09/01 19:29:14 by svet             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <sys/_types/_size_t.h>
+#include "ft_string.h"
 
 static inline int		ft_4strncmp(const char *s1, const char *s2, size_t n4)
 {

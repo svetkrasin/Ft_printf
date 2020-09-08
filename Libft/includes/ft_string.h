@@ -6,7 +6,7 @@
 /*   By: svet <svet@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/05 14:29:21 by svet              #+#    #+#             */
-/*   Updated: 2020/08/21 12:16:02 by svet             ###   ########.fr       */
+/*   Updated: 2020/09/01 19:52:36 by svet             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ char			*ft_strjoin(char const *s1, char const *s2);
 char			*ft_strtrim(char const *str, char const *set);
 char			**ft_split(char const *s, char c);
 char			*ft_itoa(int n);
-char			*ft_strmapi(char const *s, char (*f)(unsigned int, char));
+char			*ft_strmapi(char const *s, char (*f)(size_t, char));
 
 char			*ft_strappend(char **dst, char const *src);
 char			*ft_strnappend(char **dst, char const *src, size_t n);
@@ -49,7 +49,7 @@ int				ft_strequ(char const *s1, char const *s2);
 int				ft_strnequ(char const *s1, char const *s2, size_t n);
 char			*ft_strmap(char const *s, char (*f)(char));
 char			**ft_strsplit(char const *s, char c);
-char			*ft_strsub(char const *s, unsigned int start, size_t len);
+char			*ft_strsub(char const *s, size_t start, size_t len);
 void			ft_strdel(char **as);
 void			ft_strclr(char *s);
 void			ft_striter(char *s, void (*f)(char *));
@@ -58,6 +58,6 @@ void			ft_striteri(char *s, void (*f)(size_t, char *));
 unsigned long	ft_strtoul(const char *nptr, char **endptr, int base);
 char			*ft_ultoa_base(unsigned long n, int base, int isupper);
 
-char			*ft_substr(char const *s, unsigned int start, size_t len);
+char			*ft_substr(char const *s, size_t start, size_t len);
 
 #endif

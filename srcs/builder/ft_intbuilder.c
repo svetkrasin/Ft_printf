@@ -6,7 +6,7 @@
 /*   By: svet <svet@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/22 19:19:03 by svet              #+#    #+#             */
-/*   Updated: 2020/08/25 23:07:24 by svet             ###   ########.fr       */
+/*   Updated: 2020/09/03 13:06:19 by svet             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ static inline char	*build_int_str(char *s, char *number, intmax_t v, t_fmt f)
 {
 	if (!(f.flags & FL_LADJUST) && !(f.flags & FL_ZEROPAD))
 	{
-		s = (char *)((OP_T)ft_memset(s, ' ', f.width_val) + f.width_val);
+		s = (char *)((long)ft_memset(s, ' ', f.width_val) + f.width_val);
 		f.width_val = 0;
 	}
 	if (f.flags & FL_MINUS)
@@ -42,16 +42,16 @@ static inline char	*build_int_str(char *s, char *number, intmax_t v, t_fmt f)
 	if (f.type == 8 && f.flags & FL_ALT && v != 0 && f.prec_val <= (int)f.param)
 		ft_memset(s++, '0', 1);
 	else if ((f.type == 16 && f.flags & FL_ALT && v != 0) || f.type == 17)
-		s = (char *)((OP_T)ft_memcpy(s, f.flags & FL_UPPER ? "0X" : "0x", 2) +
+		s = (char *)((long)ft_memcpy(s, f.flags & FL_UPPER ? "0X" : "0x", 2) +
 																			2);
 	if ((f.flags & FL_LADJUST && f.flags & FL_ZEROPAD) ||
 														!(f.flags & FL_LADJUST))
 		f.prec_val += f.width_val;
 	if (f.prec_val > 0)
-		s = (char *)((OP_T)ft_memset(s, '0', f.prec_val) + f.prec_val);
-	s = (char *)((OP_T)ft_memcpy(s, number, f.param) + f.param);
+		s = (char *)((long)ft_memset(s, '0', f.prec_val) + f.prec_val);
+	s = (char *)((long)ft_memcpy(s, number, f.param) + f.param);
 	if (f.flags & FL_LADJUST)
-		s = (char *)((OP_T)ft_memset(s, ' ', f.width_val) + f.width_val);
+		s = (char *)((long)ft_memset(s, ' ', f.width_val) + f.width_val);
 	return (s);
 }
 
@@ -115,7 +115,7 @@ int					build_int(t_list *o, uintmax_t v, t_fmt f)
 																		== NULL)
 		return (build_str_error(s));
 	f.type = base;
-	o->content_size = (OP_T)build_int_str(o->content, s, v, f);
+	o->content_size = (long)build_int_str(o->content, s, v, f);
 	free(s);
-	return (o->content_size -= (OP_T)o->content);
+	return (o->content_size -= (long)o->content);
 }

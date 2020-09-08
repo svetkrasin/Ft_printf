@@ -6,13 +6,14 @@
 /*   By: svet <svet@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/26 14:58:35 by svet              #+#    #+#             */
-/*   Updated: 2020/07/10 14:52:04 by svet             ###   ########.fr       */
+/*   Updated: 2020/09/01 20:16:04 by svet             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_memory.h"
+#include "ft_string.h"
 
-static inline int	ft_testoptnstrlen(const unsigned OP_T *uls, const size_t n)
+static inline int	ft_testoptnstrlen(const unsigned long *uls, const size_t n)
 {
 	register const char *const	c = (const char *)uls;
 	register size_t				i;
@@ -21,7 +22,7 @@ static inline int	ft_testoptnstrlen(const unsigned OP_T *uls, const size_t n)
 	while (i < n)
 	{
 		if (c[i] == '\0')
-			return (i);
+			return ((int)i);
 		++i;
 	}
 	return (-1);
@@ -29,28 +30,29 @@ static inline int	ft_testoptnstrlen(const unsigned OP_T *uls, const size_t n)
 
 size_t				ft_strnlen(const char *str, size_t n)
 {
+	const size_t					long_size = sizeof(long);
 	const char						*s = str;
-	register const unsigned OP_T	*uls;
+	register const unsigned long	*uls;
 	register int					x;
 
-	x = ft_optmemalign(str);
+	x = (int)ft_optmemalign(str);
 	while (x-- != 0 && n != 0)
 	{
 		if (*s++ == '\0')
-			return (s - str - 1);
+			return ((size_t)(s - str - 1));
 		--n;
 	}
-	uls = (unsigned OP_T *)s;
-	while (n >= OPT_SIZE)
+	uls = (const unsigned long *)s;
+	while (n >= long_size)
 	{
 		if (((*uls - REP_01L) & ((~*uls) & REP_08L)) != 0)
-			if ((x = ft_testoptnstrlen(uls, OPT_SIZE)) != -1)
-				return ((const char *)uls - str + x);
+			if ((x = ft_testoptnstrlen(uls, long_size)) != -1)
+				return ((size_t)((const char *)uls - str + x));
 		++uls;
-		n -= OPT_SIZE;
+		n -= long_size;
 	}
 	x = ft_testoptnstrlen(uls, n);
 	if (x != -1)
-		return ((const char *)uls - str + x);
-	return ((const char *)uls - str + n);
+		return ((size_t)((const char *)uls - str + x));
+	return ((size_t)((const char *)uls - str + (long)n));
 }

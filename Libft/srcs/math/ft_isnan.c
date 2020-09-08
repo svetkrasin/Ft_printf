@@ -6,7 +6,7 @@
 /*   By: svet <svet@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/10 16:29:22 by svet              #+#    #+#             */
-/*   Updated: 2020/08/11 19:34:16 by svet             ###   ########.fr       */
+/*   Updated: 2020/09/01 20:08:11 by svet             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@ int	ft_isnan(long double x)
 	t_ieee_double_shape_type	ew_u;
 
 	ew_u.value = x;
-	hx = ew_u.parts.msw;
-	lx = ew_u.parts.lsw;
+	hx = (int32_t)ew_u.parts.msw;
+	lx = (int32_t)ew_u.parts.lsw;
 	hx &= 0x7fffffff;
 	hx |= (u_int32_t)(lx | (-lx)) >> 31;
 	hx = 0x7ff00000 - hx;

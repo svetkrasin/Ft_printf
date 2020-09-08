@@ -6,10 +6,11 @@
 /*   By: svet <svet@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/19 17:20:22 by skrasin           #+#    #+#             */
-/*   Updated: 2020/05/19 10:18:34 by svet             ###   ########.fr       */
+/*   Updated: 2020/09/01 19:22:57 by svet             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "ft_string.h"
 #include <sys/_types/_null.h>
 
 void	ft_striter(char *s, void (*f)(char *))

@@ -6,9 +6,11 @@
 /*   By: svet <svet@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/17 16:46:35 by skrasin           #+#    #+#             */
-/*   Updated: 2020/07/18 11:49:47 by svet             ###   ########.fr       */
+/*   Updated: 2020/09/01 19:21:43 by svet             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#include "ft_string.h"
 
 int	ft_strcmp(const char *s1, const char *s2)
 {
