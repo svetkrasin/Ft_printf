@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_floatbuilder.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: svet <svet@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: skrasin <skrasin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/11 15:38:02 by svet              #+#    #+#             */
-/*   Updated: 2020/09/07 20:55:57 by svet             ###   ########.fr       */
+/*   Updated: 2020/09/21 16:36:42 by skrasin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,18 +26,18 @@ static inline int	build_float_pow(int pow)
 static inline char	*build_ftoa_base(long double val, int prec, int base)
 {
 	const int		minus = val < 0 ? 1 : 0;
-	unsigned int	vd[2];
+	unsigned long	vd[2];
 	char			*str[3];
 
 	++base;
-	minus == 1 ? val -= val : 0;
-	vd[0] = (int)(val);
-	vd[1] = (unsigned int)((val - vd[0]) * build_float_pow(prec + 1));
+	minus == 1 ? val = -val : 0;
+	vd[0] = (unsigned long)(val);
+	vd[1] = (unsigned long)((val - vd[0]) * build_float_pow(prec + 1));
 	vd[1] % 10 > 4 ? vd[1] += 10 : 0;
 	vd[1] /= 10;
 	prec < (int)ft_unum_of_digs(vd[1], 10) ? ++vd[0] : 0;
-	str[0] = ft_itoa(vd[0]);
-	str[1] = ft_itoa(vd[1]);
+	str[0] = ft_ltoa_base(minus == 1 ? -vd[0] : vd[0], 10, 0);
+	str[1] = ft_ultoa_base(vd[1], 10, 0);
 	if (str[0] == NULL || str[1] == NULL)
 		return (NULL);
 	vd[0] = ft_strlen(str[0]);

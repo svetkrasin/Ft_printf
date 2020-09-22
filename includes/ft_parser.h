@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_parser.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: svet <svet@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: skrasin <skrasin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/14 19:22:06 by svet              #+#    #+#             */
-/*   Updated: 2020/09/07 21:02:57 by svet             ###   ########.fr       */
+/*   Updated: 2020/09/21 15:58:04 by skrasin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FT_PARSER_H
 # define FT_PARSER_H
-# include "libft.h"
+# include "../Libft/includes/libft.h"
 # include <stdarg.h>
 
 # define FL_ALT			0x0001

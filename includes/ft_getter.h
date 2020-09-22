@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_getter.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: svet <svet@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: skrasin <skrasin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/14 19:18:10 by svet              #+#    #+#             */
-/*   Updated: 2020/09/07 21:03:36 by svet             ###   ########.fr       */
+/*   Updated: 2020/09/21 15:58:00 by skrasin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FT_GETTER_H
 # define FT_GETTER_H
-# include "libft.h"
+# include "../Libft/includes/libft.h"
 # include "ft_parser.h"
 # include <stdarg.h>
 # include <_types/_uintmax_t.h>

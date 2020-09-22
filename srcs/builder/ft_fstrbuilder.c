@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_fstrbuilder.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: svet <svet@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: skrasin <skrasin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/14 16:16:24 by svet              #+#    #+#             */
-/*   Updated: 2020/09/07 20:39:51 by svet             ###   ########.fr       */
+/*   Updated: 2020/09/21 15:59:10 by skrasin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../../Libft/includes/libft.h"
 #include "limits.h"
 #include <sys/_types/_null.h>
 

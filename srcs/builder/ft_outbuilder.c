@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_outbuilder.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: svet <svet@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: skrasin <skrasin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/06 15:05:14 by svet              #+#    #+#             */
-/*   Updated: 2020/09/07 20:40:58 by svet             ###   ########.fr       */
+/*   Updated: 2020/09/21 15:59:21 by skrasin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../../Libft/includes/libft.h"
 #include "ft_getter.h"
 #include "ft_builder.h"
 #include <stdlib.h>
