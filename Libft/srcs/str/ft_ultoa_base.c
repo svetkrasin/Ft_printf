@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_ultoa_base.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: svet <svet@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: skrasin <skrasin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/21 12:07:38 by svet              #+#    #+#             */
-/*   Updated: 2020/09/01 20:18:12 by svet             ###   ########.fr       */
+/*   Updated: 2020/09/09 18:19:08 by skrasin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,8 @@ char	*ft_ultoa_base(unsigned long n, int base, int isupper)
 {
 	register const char		a = isupper ? 'A' : 'a';
 	register unsigned long	rem;
-	register char			*s;
 	register size_t			len;
+	register char			*s;
 
 	len = ft_unum_of_digs(n, base);
 	if (base == 0)

@@ -6,7 +6,7 @@
 /*   By: svet <svet@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/11 12:06:13 by svet              #+#    #+#             */
-/*   Updated: 2020/09/07 20:27:53 by svet             ###   ########.fr       */
+/*   Updated: 2020/09/23 00:43:24 by svet             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ t_argval					get_argtype(char type, int length, va_list ap)
 	t_argval argval;
 
 	argval.val_long_double = 0.0;
-	if (ft_memchr("diuoxbUXODn", type, 11) != NULL)
+	if (ft_memchr("diuoxbUXOD", type, 10) != NULL)
 	{
 		if (length & FL_MAXINT)
 			argval.val_max = va_arg(ap, uintmax_t);
@@ -40,7 +40,7 @@ t_argval					get_argtype(char type, int length, va_list ap)
 		else
 			argval.val_int = va_arg(ap, unsigned int);
 	}
-	else if (type == 's' || type == 'p' || type == 'S' || type == 'P')
+	else if (ft_memchr("spSPn", type, 5) != NULL)
 		argval.val_ptr_t = va_arg(ap, void *);
 	else if (ft_memchr("fFeEgGaA", type, 8) != NULL)
 		argval.val_long_double = get_argfloat(length, ap);
@@ -49,7 +49,7 @@ t_argval					get_argtype(char type, int length, va_list ap)
 	return (argval);
 }
 
-t_argval					get_pos_value(size_t n, t_list *pos_node,
+t_argval					get_pos_value(size_t n, t_dlist *pos_node,
 																	va_list ap)
 {
 	va_list		ap_cpy;
@@ -66,7 +66,7 @@ t_argval					get_pos_value(size_t n, t_list *pos_node,
 	return (n_argval);
 }
 
-int							get_width(t_fmt *fmt, size_t n, t_list *pos_node,
+int							get_width(t_fmt *fmt, size_t n, t_dlist *pos_node,
 																	va_list ap)
 {
 	int width;
@@ -80,7 +80,7 @@ int							get_width(t_fmt *fmt, size_t n, t_list *pos_node,
 	return (fmt_width(width, fmt));
 }
 
-int							get_prec(t_fmt *fmt, size_t n, t_list *pos_node,
+int							get_prec(t_fmt *fmt, size_t n, t_dlist *pos_node,
 																	va_list ap)
 {
 	int prec;

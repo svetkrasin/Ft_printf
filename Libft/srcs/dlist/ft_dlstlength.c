@@ -1,30 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstnew.c                                        :+:      :+:    :+:   */
+/*   ft_dlstlength.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: svet <svet@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/09/20 11:36:51 by skrasin           #+#    #+#             */
-/*   Updated: 2020/09/23 01:02:55 by svet             ###   ########.fr       */
+/*   Created: 2020/08/14 18:56:57 by svet              #+#    #+#             */
+/*   Updated: 2020/09/22 18:05:02 by svet             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_list.h"
-#include "ft_memory.h"
+#include "ft_dlist.h"
 #include <sys/_types/_null.h>
 
-t_list	*ft_lstnew(void const *content, size_t content_size)
+size_t	ft_dlstlength(t_dlist *lst)
 {
-	t_list *list;
+	const int	isloop = ft_dlstunloop(lst);
+	size_t		n;
 
-	if ((list = (t_list *)ft_memalloc(sizeof(t_list))) == NULL)
-		return (NULL);
-	if (content == NULL ||
-						((*list).content = ft_memalloc(content_size)) == NULL)
-		return (list);
-	list->content_size = content_size;
-	list->content = ft_memcpy(list->content, content, content_size);
-	list->next = NULL;
-	return (list);
+	n = 0;
+	lst = ft_dlstedge(lst, 0);
+	while (lst != NULL)
+	{
+		++n;
+		lst = lst->next;
+	}
+	if (isloop == 1)
+		ft_dlstloop(lst);
+	return (n);
 }

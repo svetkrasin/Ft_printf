@@ -6,7 +6,7 @@
 #    By: svet <svet@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/08/14 18:30:04 by svet              #+#    #+#              #
-#    Updated: 2020/08/25 18:21:32 by svet             ###   ########.fr        #
+#    Updated: 2020/09/22 21:42:51 by svet             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -59,6 +59,8 @@ $(NAME): $(objects)
 	@cp Libft/libft.a ./$(NAME)
 	@ar rc $(NAME) $(objects)
 	@ranlib $(NAME)
+
+bonus: re
 
 #	Removing objects
 clean:

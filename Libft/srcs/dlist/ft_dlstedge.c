@@ -1,30 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstnew.c                                        :+:      :+:    :+:   */
+/*   ft_dlstedge.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: svet <svet@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/09/20 11:36:51 by skrasin           #+#    #+#             */
-/*   Updated: 2020/09/23 01:02:55 by svet             ###   ########.fr       */
+/*   Created: 2020/09/22 16:56:44 by svet              #+#    #+#             */
+/*   Updated: 2020/09/22 20:45:13 by svet             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_list.h"
-#include "ft_memory.h"
+#include "ft_dlist.h"
 #include <sys/_types/_null.h>
 
-t_list	*ft_lstnew(void const *content, size_t content_size)
+t_dlist	*ft_dlstedge(t_dlist *alst, int isforward)
 {
-	t_list *list;
+	const t_dlist *const	ref = alst;
+	t_dlist					*node;
 
-	if ((list = (t_list *)ft_memalloc(sizeof(t_list))) == NULL)
+	if (alst == NULL)
 		return (NULL);
-	if (content == NULL ||
-						((*list).content = ft_memalloc(content_size)) == NULL)
-		return (list);
-	list->content_size = content_size;
-	list->content = ft_memcpy(list->content, content, content_size);
-	list->next = NULL;
-	return (list);
+	if (isforward)
+		while ((node = alst->next) != NULL && node != ref)
+			alst = node;
+	else
+		while ((node = alst->prev) != NULL && node != ref)
+			alst = node;
+	return (node == ref ? NULL : alst);
 }

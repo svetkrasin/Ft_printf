@@ -1,30 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstnew.c                                        :+:      :+:    :+:   */
+/*   ft_dlstadd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: svet <svet@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/09/20 11:36:51 by skrasin           #+#    #+#             */
-/*   Updated: 2020/09/23 01:02:55 by svet             ###   ########.fr       */
+/*   Created: 2019/09/20 17:26:31 by skrasin           #+#    #+#             */
+/*   Updated: 2020/09/22 22:47:44 by svet             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_list.h"
-#include "ft_memory.h"
+#include "ft_dlist.h"
 #include <sys/_types/_null.h>
 
-t_list	*ft_lstnew(void const *content, size_t content_size)
+void	ft_dlstadd(t_dlist **alst, t_dlist *new)
 {
-	t_list *list;
-
-	if ((list = (t_list *)ft_memalloc(sizeof(t_list))) == NULL)
-		return (NULL);
-	if (content == NULL ||
-						((*list).content = ft_memalloc(content_size)) == NULL)
-		return (list);
-	list->content_size = content_size;
-	list->content = ft_memcpy(list->content, content, content_size);
-	list->next = NULL;
-	return (list);
+	if (alst == NULL)
+		alst = &new;
+	else if (new != NULL)
+	{
+		new->prev = *alst;
+		if (*alst != NULL)
+			(*alst)->next = new;
+		*alst = new;
+	}
 }

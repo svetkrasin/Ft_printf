@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_parser.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: skrasin <skrasin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: svet <svet@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/14 19:22:06 by svet              #+#    #+#             */
-/*   Updated: 2020/09/21 15:58:04 by skrasin          ###   ########.fr       */
+/*   Updated: 2020/09/23 01:02:02 by svet             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,9 +45,9 @@ typedef struct	s_fmt
 
 typedef struct	s_ptrs
 {
-	t_list *out_head;
-	t_list *fmt_head;
-	t_list *pos_head;
+	t_dlist *out_head;
+	t_dlist *fmt_head;
+	t_dlist *pos_head;
 }				t_ptrs;
 
 typedef struct	s_pos
@@ -59,17 +59,18 @@ typedef struct	s_pos
 
 const char		*fmt_flags(const char *format, t_fmt *fmt);
 int				fmt_pos_or_width(const char **format_p, t_fmt *fmt,
-																t_list **pos_p);
-int				fmt_aster(const char **format_p, t_fmt *fmt, t_list **pos_p,
+															t_dlist **pos_p);
+int				fmt_aster(const char **format_p, t_fmt *fmt, t_dlist **pos_p,
 																	va_list ap);
-int				fmt_dot(const char **format_p, t_fmt *fmt, t_list **pos_p,
+int				fmt_dot(const char **format_p, t_fmt *fmt, t_dlist **pos_p,
 																	va_list ap);
 int				fmt_lenght_and_type(const char **format_p, t_fmt *fmt);
 int				fmt_width(long n, t_fmt *fmt);
 void			fmt_upd_flags(int flag, t_fmt *fmt);
 int				fmt_prec(long n, t_fmt *fmt);
 int				fmt_set_prec(int value, unsigned long param, t_fmt *fmt);
-int				fmt_pos(unsigned long n, char type, t_fmt *fmt, t_list **pos_p);
+int				fmt_pos(unsigned long n, char type, t_fmt *fmt,
+															t_dlist **pos_p);
 int				fmt_eoverflow(long n);
 void			fmt_revise_flags(char type, t_fmt *fmt);
 

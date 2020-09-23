@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_getter.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: skrasin <skrasin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: svet <svet@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/14 19:18:10 by svet              #+#    #+#             */
-/*   Updated: 2020/09/21 15:58:00 by skrasin          ###   ########.fr       */
+/*   Updated: 2020/09/22 22:16:19 by svet             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,9 @@ typedef union	u_argval
 	void				*val_ptr_t;
 }				t_argval;
 
-t_argval		get_pos_value(size_t n, t_list *pos_node, va_list ap);
+t_argval		get_pos_value(size_t n, t_dlist *pos_node, va_list ap);
 t_argval		get_argtype(char type, int length, va_list ap);
-int				get_width(t_fmt *fmt, size_t n, t_list *pos_node, va_list ap);
-int				get_prec(t_fmt *fmt, size_t n, t_list *pos_node, va_list ap);
+int				get_width(t_fmt *fmt, size_t n, t_dlist *pos_node, va_list ap);
+int				get_prec(t_fmt *fmt, size_t n, t_dlist *pos_node, va_list ap);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: svet <svet@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/19 12:38:37 by svet              #+#    #+#             */
-/*   Updated: 2020/09/07 21:08:44 by svet             ###   ########.fr       */
+/*   Updated: 2020/09/22 22:22:38 by svet             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 static inline ptrdiff_t	fmt_parser(
 	t_fmt *fmt,
 	const char *format,
-	t_list **pos_p,
+	t_dlist **pos_p,
 	va_list ap
 )
 {
@@ -61,44 +61,44 @@ static inline t_fmt		*fmt_init(void)
 static inline int		fmt_as_str(
 	const char *format,
 	ptrdiff_t m,
-	t_list **out_p
+	t_dlist **out_p
 )
 {
-	t_list	*tmp_node;
+	t_dlist	*tmp_node;
 
 	if (m > INT_MAX)
 	{
 		errno = EOVERFLOW;
 		return (-1);
 	}
-	if ((tmp_node = ft_lstnew(format, m)) == NULL)
+	if ((tmp_node = ft_dlstnew(format, m)) == NULL)
 		return (-1);
-	ft_lstadd(out_p, tmp_node);
+	ft_dlstadd(out_p, tmp_node);
 	return (0);
 }
 
 static inline int		fmt_wrap_out_node(
-	t_list *heads[3],
+	t_dlist *heads[3],
 	t_fmt *fmt,
 	va_list ap
 )
 {
-	t_list	*tmp_node;
+	t_dlist	*tmp_node;
 
-	if ((tmp_node = ft_lstnew(NULL, 0)) == NULL)
+	if ((tmp_node = ft_dlstnew(NULL, 0)) == NULL)
 		return (-1);
-	ft_lstadd(&heads[0], tmp_node);
+	ft_dlstadd(&heads[0], tmp_node);
 	if (fmt->param == 0 && fmt->prec_pos == 0 && fmt->width_pos == 0)
 		return (build_out_node(heads[0], get_argtype(fmt->type, fmt->flags, ap),
 																		fmt));
-		if ((tmp_node = ft_lstnew(fmt, sizeof(t_fmt))) == NULL)
+		if ((tmp_node = ft_dlstnew(fmt, sizeof(t_fmt))) == NULL)
 		return (-1);
-	ft_lstadd(&heads[1], tmp_node);
+	ft_dlstadd(&heads[1], tmp_node);
 	return (0);
 }
 
 int						fmt_proc(
-	t_list *heads[3],
+	t_dlist *heads[3],
 	const char *format,
 	va_list ap
 )

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_outbuilder.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: skrasin <skrasin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: svet <svet@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/06 15:05:14 by svet              #+#    #+#             */
-/*   Updated: 2020/09/21 15:59:21 by skrasin          ###   ########.fr       */
+/*   Updated: 2020/09/23 00:06:23 by svet             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	build_str_error(char *str)
 	return (-1);
 }
 
-int	build_fmt(t_list *out_node, t_fmt *fmt, t_list *pos_head, va_list ap)
+int	build_fmt(t_dlist *out_node, t_fmt *fmt, t_dlist *pos_head, va_list ap)
 {
 	size_t		n;
 	int			ret;
@@ -41,7 +41,7 @@ int	build_fmt(t_list *out_node, t_fmt *fmt, t_list *pos_head, va_list ap)
 	return (build_out_node(out_node, argval, fmt));
 }
 
-int	build_out_node(t_list *out, t_argval argval, t_fmt *fmt)
+int	build_out_node(t_dlist *out, t_argval argval, t_fmt *fmt)
 {
 	const char		type = fmt->type;
 
@@ -57,14 +57,16 @@ int	build_out_node(t_list *out, t_argval argval, t_fmt *fmt)
 		return (build_int(out, (uintmax_t)argval.val_ptr_t, *fmt));
 	if (type == '%')
 		return (build_chr(out, '%', *fmt));
+	if (type == 'n')
+		return (build_number(out, argval.val_ptr_t, fmt->flags));
 	return (build_rand_chr(out, type, fmt));
 }
 
-int	build_out_pos(t_list *out_node, t_list *fmt_node, t_list *pos_head,
+int	build_out_pos(t_dlist *out_node, t_dlist *fmt_node, t_dlist *pos_head,
 																	va_list ap)
 {
 	t_fmt	*tmp_fmt;
-	t_list	*tmp_node;
+	t_dlist	*tmp_node;
 
 	while (out_node != NULL)
 	{
@@ -75,10 +77,10 @@ int	build_out_pos(t_list *out_node, t_list *fmt_node, t_list *pos_head,
 				return (-1);
 			tmp_node = fmt_node;
 			fmt_node = fmt_node->next;
-			ft_lstdelone(&tmp_node, ft_lstdelcontent);
+			ft_dlstdelone(&tmp_node, ft_lstdelcontent);
 		}
 		out_node = out_node->next;
 	}
-	ft_lstdel(&pos_head, ft_lstdelcontent);
+	ft_dlstdel(&pos_head, ft_lstdelcontent);
 	return (0);
 }

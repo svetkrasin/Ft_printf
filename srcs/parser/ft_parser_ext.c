@@ -6,7 +6,7 @@
 /*   By: svet <svet@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/06 15:56:42 by svet              #+#    #+#             */
-/*   Updated: 2020/08/25 22:52:13 by svet             ###   ########.fr       */
+/*   Updated: 2020/09/22 22:17:38 by svet             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int	fmt_set_prec(int value, unsigned long param, t_fmt *fmt)
 	return (0);
 }
 
-int	fmt_dot(const char **format_p, t_fmt *fmt, t_list **pos_p, va_list ap)
+int	fmt_dot(const char **format_p, t_fmt *fmt, t_dlist **pos_p, va_list ap)
 {
 	int				ast;
 	unsigned long	n;

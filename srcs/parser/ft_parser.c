@@ -6,7 +6,7 @@
 /*   By: svet <svet@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/30 18:21:08 by svet              #+#    #+#             */
-/*   Updated: 2020/08/25 20:55:25 by svet             ###   ########.fr       */
+/*   Updated: 2020/09/22 22:20:27 by svet             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,10 +43,10 @@ int			fmt_width(long n, t_fmt *fmt)
 	return (0);
 }
 
-int			fmt_pos(unsigned long n, char type, t_fmt *fmt, t_list **pos_p)
+int			fmt_pos(unsigned long n, char type, t_fmt *fmt, t_dlist **pos_p)
 {
 	t_pos	new_pos;
-	t_list	*tmp_node;
+	t_dlist	*tmp_node;
 
 	if (n == 0)
 		return (0);
@@ -55,13 +55,13 @@ int			fmt_pos(unsigned long n, char type, t_fmt *fmt, t_list **pos_p)
 	new_pos.flags = 0;
 	if (type == 0)
 		fmt->param = n;
-	if ((tmp_node = ft_lstnew(&new_pos, sizeof(t_pos))) == NULL)
+	if ((tmp_node = ft_dlstnew(&new_pos, sizeof(t_pos))) == NULL)
 		return (-1);
-	ft_lstadd(pos_p, tmp_node);
+	ft_dlstadd(pos_p, tmp_node);
 	return (1);
 }
 
-int			fmt_pos_or_width(const char **format_p, t_fmt *fmt, t_list **pos_p)
+int			fmt_pos_or_width(const char **format_p, t_fmt *fmt, t_dlist **pos_p)
 {
 	const char			*format = *format_p;
 	const unsigned long	n = ft_strtoul(format, (char **)&format, 10);
@@ -75,7 +75,7 @@ int			fmt_pos_or_width(const char **format_p, t_fmt *fmt, t_list **pos_p)
 	return (fmt_width(n, fmt));
 }
 
-int			fmt_aster(const char **format_p, t_fmt *fmt, t_list **pos_p,
+int			fmt_aster(const char **format_p, t_fmt *fmt, t_dlist **pos_p,
 																	va_list ap)
 {
 	int				ast;

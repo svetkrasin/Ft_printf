@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_tombyte.c                                       :+:      :+:    :+:   */
+/*   ft_wctomb.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: svet <svet@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: skrasin <skrasin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/10 16:27:38 by svet              #+#    #+#             */
-/*   Updated: 2020/09/01 17:55:25 by svet             ###   ########.fr       */
+/*   Updated: 2020/09/09 18:18:12 by skrasin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "ft_memory.h"
 #include <stdlib.h>
 
-char	*ft_tombyte(wchar_t wc)
+char	*ft_wctomb(wchar_t wc)
 {
 	register char	*mbyte;
 	register char	buf[6];

@@ -6,7 +6,7 @@
 /*   By: svet <svet@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/18 15:35:04 by svet              #+#    #+#             */
-/*   Updated: 2020/09/07 21:00:53 by svet             ###   ########.fr       */
+/*   Updated: 2020/09/22 22:17:41 by svet             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static inline char	*build_wstr(wchar_t *str, int flags)
 		return (NULL);
 	while (*str != L'\0')
 	{
-		if ((tmp_p = ft_tombyte(*str++)) == NULL ||
+		if ((tmp_p = ft_wctomb(*str++)) == NULL ||
 											ft_strappend(&wstr, tmp_p) == NULL)
 			return (NULL);
 		free(tmp_p);
@@ -39,7 +39,7 @@ static inline int	build_wstr_free(char *str, int flags)
 	return (-1);
 }
 
-int					build_str(t_list *o, void *s, t_fmt f)
+int					build_str(t_dlist *o, void *s, t_fmt f)
 {
 	if ((s = s == NULL ? "(null)" : build_wstr(s, f.flags)) == NULL)
 		return (-1);
@@ -62,7 +62,7 @@ int					build_str(t_list *o, void *s, t_fmt f)
 	return ((o->content_size = f.prec_val + f.width_val));
 }
 
-int					build_chr(t_list *o, int c, t_fmt f)
+int					build_chr(t_dlist *o, int c, t_fmt f)
 {
 	char	*s;
 
@@ -81,7 +81,7 @@ int					build_chr(t_list *o, int c, t_fmt f)
 	}
 	else
 	{
-		if ((s = ft_tombyte((wchar_t)c)) == NULL)
+		if ((s = ft_wctomb((wchar_t)c)) == NULL)
 			return (-1);
 		f.flags &= ~FL_LONGINT;
 		f.width_val = build_str(o, s, f);
@@ -90,7 +90,7 @@ int					build_chr(t_list *o, int c, t_fmt f)
 	return ((o->content_size = f.width_val));
 }
 
-int					build_rand_chr(t_list *out_node, int c, t_fmt *fmt)
+int					build_rand_chr(t_dlist *out_node, int c, t_fmt *fmt)
 {
 	char	*c_as_str;
 	int		ret;
@@ -101,7 +101,7 @@ int					build_rand_chr(t_list *out_node, int c, t_fmt *fmt)
 			return (-1);
 		*c_as_str = c;
 	}
-	else if ((c_as_str = ft_tombyte((wchar_t)c)) == NULL)
+	else if ((c_as_str = ft_wctomb((wchar_t)c)) == NULL)
 		return (-1);
 	ret = build_str(out_node, c_as_str, *fmt);
 	free(c_as_str);

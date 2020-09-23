@@ -6,7 +6,7 @@
 /*   By: svet <svet@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/22 19:19:03 by svet              #+#    #+#             */
-/*   Updated: 2020/09/07 21:24:12 by svet             ###   ########.fr       */
+/*   Updated: 2020/09/23 00:07:12 by svet             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ static inline char	*build_int_sep(uintmax_t v, int *flags, int base)
 	return (ft_ultoa_base(v, base == 17 ? 16 : base, *flags & FL_UPPER));
 }
 
-int					build_int(t_list *o, uintmax_t v, t_fmt f)
+int					build_int(t_dlist *o, uintmax_t v, t_fmt f)
 {
 	const int	base = build_base(f.type);
 	char		*s;

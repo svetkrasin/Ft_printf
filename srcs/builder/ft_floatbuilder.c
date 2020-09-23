@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_floatbuilder.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: skrasin <skrasin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: svet <svet@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/11 15:38:02 by svet              #+#    #+#             */
-/*   Updated: 2020/09/21 16:36:42 by skrasin          ###   ########.fr       */
+/*   Updated: 2020/09/22 22:17:45 by svet             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ static inline char	*build_float_str(char *s, char *number, t_fmt f)
 	return (s);
 }
 
-int					build_float(t_list *o, long double val, t_fmt f)
+int					build_float(t_dlist *o, long double val, t_fmt f)
 {
 	const int	base = 10;
 	char		*s;

@@ -1,30 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstnew.c                                        :+:      :+:    :+:   */
+/*   ft_dlstloop.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: svet <svet@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/09/20 11:36:51 by skrasin           #+#    #+#             */
-/*   Updated: 2020/09/23 01:02:55 by svet             ###   ########.fr       */
+/*   Created: 2020/09/22 16:12:40 by svet              #+#    #+#             */
+/*   Updated: 2020/09/22 19:54:52 by svet             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_list.h"
-#include "ft_memory.h"
+#include "ft_dlist.h"
 #include <sys/_types/_null.h>
 
-t_list	*ft_lstnew(void const *content, size_t content_size)
+int	ft_dlstloop(t_dlist *alst)
 {
-	t_list *list;
+	t_dlist			*node;
 
-	if ((list = (t_list *)ft_memalloc(sizeof(t_list))) == NULL)
-		return (NULL);
-	if (content == NULL ||
-						((*list).content = ft_memalloc(content_size)) == NULL)
-		return (list);
-	list->content_size = content_size;
-	list->content = ft_memcpy(list->content, content, content_size);
-	list->next = NULL;
-	return (list);
+	if (alst == NULL)
+		return (-1);
+	if ((node = ft_dlstedge(alst, 0)) == NULL)
+		return (0);
+	ft_dlstedge(alst, 1)->next = node;
+	return (1);
 }
